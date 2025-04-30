@@ -9,5 +9,6 @@ export interface KanbanColumnPropsWithRegister extends KanbanColumnProps {
     registerRefetch: (refetch: () => void) => void;
     columnId: string;
     title: string;
-    onTaskClick: (task: Task) => void;
+    onTaskClick: (task: Task|null) => void;
+    selectedTask: Task | null;
 }

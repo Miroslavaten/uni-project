@@ -65,3 +65,44 @@ strong {
     transform: translateY(0);
   }
 }
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.deleteButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #c0392b;
+  }
+}
+.editable {
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: 0.2s;
+
+  &:hover {
+    border-color: #ccc;
+    background-color: #f9f9f9;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}

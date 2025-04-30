@@ -1,12 +1,12 @@
 import React, {FC, useRef, useState} from "react";
-import { useColumns } from "../hooks/useColumns";
-import { useTasks } from "../hooks/useTasks";
-import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
+import {useColumns} from "../hooks/useColumns";
+import {useTasks} from "../hooks/useTasks";
+import {DndContext, DragEndEvent, useDroppable} from "@dnd-kit/core";
 import {KanbanColumnPropsWithRegister} from "../types/KanbanTypes";
 import styles from "../styles/kanban.module.scss";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase.ts";
-import { TaskCard } from "./TaskCard.tsx";
+import {doc, updateDoc} from "firebase/firestore";
+import {db} from "../firebase.ts";
+import {TaskCard} from "./TaskCard.tsx";
 import {TaskDetailsModal} from "./TaskDetails.tsx";
 import {Task} from "../types/TaskTypes.ts";
 
@@ -15,13 +15,10 @@ export const KanbanBoard: FC = () => {
     const columnsRefs = useRef<Record<string, () => void>>({});
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-    if (columnsLoading) {
-        return <div>Loading columns...</div>;
-    }
+    if (columnsLoading) return <div>Loading columns...</div>;
 
     const handleDragEnd = async (event: DragEndEvent) => {
         const { active, over } = event;
-
         if (over && active.id !== over.id) {
             const taskId = active.id as string;
             const newColumnId = over.id as string;
@@ -40,6 +37,14 @@ export const KanbanBoard: FC = () => {
         }
     };
 
+    const handleTaskUpdated = () => {
+        if (selectedTask) {
+            const columnId = selectedTask.columnId.id; // Firestore reference
+            const refetch = columnsRefs.current[columnId];
+            if (refetch) refetch();
+        }
+    };
+
     return (
         <DndContext onDragEnd={handleDragEnd}>
             <div className={styles.board}>
@@ -55,16 +60,25 @@ export const KanbanBoard: FC = () => {
                     />
                 ))}
             </div>
-            <TaskDetailsModal task={selectedTask} onClose={() => setSelectedTask(null)} />
+
+            {selectedTask && (
+                <TaskDetailsModal
+                    task={selectedTask}
+                    onClose={() => setSelectedTask(null)}
+                    onUpdated={handleTaskUpdated}
+                />
+            )}
         </DndContext>
     );
 };
-
-const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({ columnId, title, registerRefetch, onTaskClick }) => {
+export const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
+    columnId,
+    title,
+    registerRefetch,
+    onTaskClick,
+}) => {
     const { tasks, loading: tasksLoading, refetch } = useTasks(columnId);
-    const { setNodeRef } = useDroppable({
-        id: columnId,
-    });
+    const { setNodeRef } = useDroppable({ id: columnId });
 
     React.useEffect(() => {
         registerRefetch(refetch);
@@ -78,12 +92,15 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({ columnId, title, regi
             ) : (
                 <div className={styles.taskList}>
                     {tasks.map((task) => (
-                        <TaskCard key={task.id} task={task} columnId={columnId} onClick={() => onTaskClick(task)}/>
+                        <TaskCard
+                            key={task.id}
+                            task={task}
+                            columnId={columnId}
+                            onClick={() => onTaskClick(task)}
+                        />
                     ))}
                 </div>
             )}
         </div>
     );
 };
-
-export default KanbanBoard;

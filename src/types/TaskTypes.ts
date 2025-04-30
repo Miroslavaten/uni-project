@@ -21,4 +21,5 @@ export interface TaskCardProps {
 export interface TaskDetailsProps {
   task: Task | null;
   onClose: () => void;
+  onUpdated?: () => void;
 }
