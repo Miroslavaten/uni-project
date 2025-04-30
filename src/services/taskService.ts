@@ -12,10 +12,12 @@ import {Task} from "../types/TaskTypes.ts";
 
 const tasksCollection = collection(db, "tasks");
 
-export const createTask = async (title: string, description: string, columnRef: DocumentReference, order: number = 0) => {
+export const createTask = async (author: string, title: string, description: string, columnRef: DocumentReference, order: number = 0) => {
   const newTask = {
+    author,
     title,
     description,
+    legend: '',
     columnId: columnRef,
     order,
     createdAt: serverTimestamp(),

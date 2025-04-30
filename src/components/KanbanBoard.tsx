@@ -1,4 +1,4 @@
-import React, { FC, useRef } from "react";
+import React, {FC, useRef, useState} from "react";
 import { useColumns } from "../hooks/useColumns";
 import { useTasks } from "../hooks/useTasks";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
@@ -7,10 +7,13 @@ import styles from "../styles/kanban.module.scss";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase.ts";
 import { TaskCard } from "./TaskCard.tsx";
+import {TaskDetailsModal} from "./TaskDetails.tsx";
+import {Task} from "../types/TaskTypes.ts";
 
 export const KanbanBoard: FC = () => {
     const { columns, loading: columnsLoading } = useColumns();
     const columnsRefs = useRef<Record<string, () => void>>({});
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
     if (columnsLoading) {
         return <div>Loading columns...</div>;
@@ -48,20 +51,21 @@ export const KanbanBoard: FC = () => {
                         registerRefetch={(refetch) => {
                             columnsRefs.current[column.id] = refetch;
                         }}
+                        onTaskClick={setSelectedTask}
                     />
                 ))}
             </div>
+            <TaskDetailsModal task={selectedTask} onClose={() => setSelectedTask(null)} />
         </DndContext>
     );
 };
 
-const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({ columnId, title, registerRefetch }) => {
+const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({ columnId, title, registerRefetch, onTaskClick }) => {
     const { tasks, loading: tasksLoading, refetch } = useTasks(columnId);
     const { setNodeRef } = useDroppable({
         id: columnId,
     });
 
-    // Регистрируем refetch в родительском компоненте
     React.useEffect(() => {
         registerRefetch(refetch);
     }, [refetch, registerRefetch]);
@@ -74,7 +78,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({ columnId, title, regi
             ) : (
                 <div className={styles.taskList}>
                     {tasks.map((task) => (
-                        <TaskCard key={task.id} task={task} columnId={columnId} />
+                        <TaskCard key={task.id} task={task} columnId={columnId} onClick={() => onTaskClick(task)}/>
                     ))}
                 </div>
             )}

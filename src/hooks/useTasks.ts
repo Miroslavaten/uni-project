@@ -14,6 +14,7 @@ const taskConverter = {
       id: snapshot.id,
       title: data.title,
       description: data.description,
+      legend: data.legend,
       columnId: data.columnId,
       author: data.author,
       order: data.order,
