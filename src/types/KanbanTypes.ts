@@ -10,5 +10,4 @@ export interface KanbanColumnPropsWithRegister extends KanbanColumnProps {
   columnId: string;
   title: string;
   onTaskClick: (task: Task | null) => void;
-  selectedTask: Task | null;
 }
