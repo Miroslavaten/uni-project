@@ -10,6 +10,8 @@ import AddIcon from "../../assets/addIcon.svg";
 import { TaskCard } from "./TaskCard/TaskCard.tsx";
 import { Task } from "../../types/TaskTypes.ts";
 import TaskModal from "../TaskModal/TaskModal.tsx";
+import { CreateTaskModal } from "../TaskModal/TaskCreateModal/TaskCreateModal.tsx";
+import {useAuth} from "../../hooks/useAuth.ts";
 
 export const KanbanBoard: FC = () => {
   const { columns, loading: columnsLoading } = useColumns();
@@ -85,6 +87,8 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
   const { setNodeRef } = useDroppable({
     id: columnId,
   });
+  const [isCreating, setIsCreating] = useState(false);
+  const { user } = useAuth();
 
   // Регистрируем refetch в родительском компоненте
   React.useEffect(() => {
@@ -96,9 +100,22 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
       <div className={styles.columnHeader}>
         <h2 className={styles.columnTitle}>{title}</h2>
         <div>
-          <img src={AddIcon} alt="add icon" className={styles.addIcon} />
+          <img
+            src={AddIcon}
+            alt="add icon"
+            className={styles.addIcon}
+            onClick={() => setIsCreating(true)}
+          />
         </div>
       </div>
+      {isCreating && (
+        <CreateTaskModal
+          columnRef={doc(db, "columns", columnId)}
+          author={user.email}
+          onClose={() => setIsCreating(false)}
+          onCreated={refetch}
+        />
+      )}
       {tasksLoading ? (
         <div>Loading tasks...</div>
       ) : (
