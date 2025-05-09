@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styles from "../TaskModal/TaskModal.module.scss";
-import { createComment } from "../../services/commentService.ts";
+import { createComment, updateComment } from "../../services/commentService.ts";
 import { doc } from "firebase/firestore";
 import { db } from "../../firebase.ts";
 import { useAuth } from "../../hooks/useAuth.ts";
 import { Task } from "../../types/TaskTypes.ts";
+import { EditableField } from "./EditableField.tsx";
+import { c } from "vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf";
 
 export interface CommentData {
   id: string;
@@ -27,6 +29,7 @@ export const Comment: React.FC<CommentProps> = ({
 }) => {
   const [addReply, setAddReply] = useState(false);
   const [replyText, setReplyText] = useState("");
+  const [description, setDescription] = useState(comment.text);
   const { user } = useAuth();
 
   const handleAddReply = (e: React.KeyboardEvent) => {
@@ -55,7 +58,14 @@ export const Comment: React.FC<CommentProps> = ({
     >
       <div className={styles.commentInfo}>
         <div className={styles.commentName}>{comment.author.slice(0, 2)}</div>
-        <p className={styles.commentText}>{comment.text}</p>
+        <EditableField
+          className={styles.commentText}
+          value={description}
+          onSave={async (val) => {
+            setDescription(val);
+            await updateComment(comment.id, val);
+          }}
+        />
         <button onClick={() => onDelete(comment.id)}>Delete</button>
         {!comment.isReply && (
           <button onClick={() => setAddReply(!addReply)}>
