@@ -11,6 +11,7 @@ import { TaskCard } from "./TaskCard/TaskCard.tsx";
 import { Task } from "../../types/TaskTypes.ts";
 import TaskModal from "../TaskModal/TaskModal.tsx";
 import { CreateTaskModal } from "../TaskModal/TaskCreateModal/TaskCreateModal.tsx";
+import {useAuth} from "../../hooks/useAuth.ts";
 
 export const KanbanBoard: FC = () => {
   const { columns, loading: columnsLoading } = useColumns();
@@ -87,6 +88,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
     id: columnId,
   });
   const [isCreating, setIsCreating] = useState(false);
+  const { user } = useAuth();
 
   // Регистрируем refetch в родительском компоненте
   React.useEffect(() => {
@@ -109,7 +111,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
       {isCreating && (
         <CreateTaskModal
           columnRef={doc(db, "columns", columnId)}
-          author="demo_user"
+          author={user.email}
           onClose={() => setIsCreating(false)}
           onCreated={refetch}
         />

@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import KanbanBoard from "../../components/KanbanBoard/KanbanBoard";
 import styles from "./mainPage.module.scss";
+import { signOut } from "firebase/auth"
+import {auth} from "../../firebase.ts";
 
 const MainPage: FC = () => {
   return (
@@ -16,6 +18,7 @@ const MainPage: FC = () => {
           nobis quia cum consequatur corporis. Provident fugiat doloribus
           laudantium soluta tempora necessitatibus repellendus perspiciatis aut!
         </p>
+        <button onClick={() => signOut(auth)}>Sign Out</button>
       </div>
       <KanbanBoard />
     </div>
