@@ -26,11 +26,6 @@ button {
   font-size: $font-size-title;
   font-weight: 500;
   font-family: inherit;
-  background-color: $color-text-dark;
   cursor: pointer;
-  transition: border-color 0.25s;
-
-  &:hover {
-    border-color: $color-hover-border;
-  }
+  background-color: transparent;
 }
