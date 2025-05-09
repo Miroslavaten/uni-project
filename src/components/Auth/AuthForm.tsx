@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import {auth} from "../../firebase.ts";
-
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../firebase.ts";
 
 export const AuthForm = () => {
   const [email, setEmail] = useState("");
@@ -25,10 +27,21 @@ export const AuthForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>{isRegister ? "Регистрация" : "Вход"}</h2>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Пароль" />
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Пароль"
+      />
       {error && <p>{error}</p>}
-      <button type="submit">{isRegister ? "Зарегистрироваться" : "Войти"}</button>
+      <button type="submit">
+        {isRegister ? "Зарегистрироваться" : "Войти"}
+      </button>
       <button type="button" onClick={() => setIsRegister(!isRegister)}>
         {isRegister ? "Уже есть аккаунт?" : "Нет аккаунта?"}
       </button>
