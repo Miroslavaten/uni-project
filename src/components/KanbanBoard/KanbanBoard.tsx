@@ -1,19 +1,19 @@
-import React, {FC, useRef, useState} from "react";
-import {useColumns} from "../../hooks/useColumns.ts";
-import {useTasks} from "../../hooks/useTasks.ts";
-import {DndContext, DragEndEvent, useDroppable} from "@dnd-kit/core";
-import {KanbanColumnPropsWithRegister} from "../../types/KanbanTypes.ts";
-import {doc, updateDoc} from "firebase/firestore";
-import {db} from "../../firebase.ts";
+import React, { FC, useRef, useState } from "react";
+import { useColumns } from "../../hooks/useColumns.ts";
+import { useTasks } from "../../hooks/useTasks.ts";
+import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
+import { KanbanColumnPropsWithRegister } from "../../types/KanbanTypes.ts";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase.ts";
 import styles from "./kanban.module.scss";
 import AddIcon from "../../assets/addIcon.svg";
-import {TaskCard} from "./TaskCard/TaskCard.tsx";
-import {Task} from "../../types/TaskTypes.ts";
+import { TaskCard } from "./TaskCard/TaskCard.tsx";
+import { Task } from "../../types/TaskTypes.ts";
 import TaskModal from "../TaskModal/TaskModal.tsx";
-import {CreateTaskModal} from "../TaskModal/TaskCreateModal/TaskCreateModal.tsx";
+import { CreateTaskModal } from "../TaskModal/TaskCreateModal/TaskCreateModal.tsx";
 
 export const KanbanBoard: FC = () => {
-  const {columns, loading: columnsLoading} = useColumns();
+  const { columns, loading: columnsLoading } = useColumns();
   const columnsRefs = useRef<Record<string, () => void>>({});
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
@@ -22,7 +22,7 @@ export const KanbanBoard: FC = () => {
   }
 
   const handleDragEnd = async (event: DragEndEvent) => {
-    const {active, over} = event;
+    const { active, over } = event;
 
     if (over && active.id !== over.id) {
       const taskId = active.id as string;
@@ -77,17 +77,16 @@ export const KanbanBoard: FC = () => {
 };
 
 const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
-                                                           columnId,
-                                                           title,
-                                                           registerRefetch,
-                                                           onTaskClick,
-                                                         }) => {
-  const {tasks, loading: tasksLoading, refetch} = useTasks(columnId);
-  const {setNodeRef} = useDroppable({
+  columnId,
+  title,
+  registerRefetch,
+  onTaskClick,
+}) => {
+  const { tasks, loading: tasksLoading, refetch } = useTasks(columnId);
+  const { setNodeRef } = useDroppable({
     id: columnId,
   });
   const [isCreating, setIsCreating] = useState(false);
-
 
   // Регистрируем refetch в родительском компоненте
   React.useEffect(() => {
@@ -99,7 +98,12 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
       <div className={styles.columnHeader}>
         <h2 className={styles.columnTitle}>{title}</h2>
         <div>
-          <img src={AddIcon} alt="add icon" className={styles.addIcon} onClick={() => setIsCreating(true)}/>
+          <img
+            src={AddIcon}
+            alt="add icon"
+            className={styles.addIcon}
+            onClick={() => setIsCreating(true)}
+          />
         </div>
       </div>
       {isCreating && (
