@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import KanbanBoard from "../../components/KanbanBoard/KanbanBoard";
 import styles from "./mainPage.module.scss";
-import { signOut } from "firebase/auth"
-import {auth} from "../../firebase.ts";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase.ts";
 
 const MainPage: FC = () => {
   return (
