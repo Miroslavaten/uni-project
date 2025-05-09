@@ -1,32 +1,58 @@
-import React, { FC, useState } from 'react';
-import styles from './TaskModal.module.scss';
-import { deleteTask, updateTask } from '../../services/taskService.ts';
-import { EditableField } from '../Editable/EditableField.tsx';
-import { TaskDetailsProps } from '../../types/TaskTypes.ts';
+import React, { FC, useState } from "react";
+import styles from "./TaskModal.module.scss";
+import { deleteTask, updateTask } from "../../services/taskService.ts";
+import { EditableField } from "../Editable/EditableField.tsx";
+import { TaskDetailsProps } from "../../types/TaskTypes.ts";
+import { useComments } from "../../hooks/useComment.ts";
+import { createComment, deleteComment } from "../../services/commentService.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
+import { doc } from "firebase/firestore";
+import { db } from "../../firebase.ts";
+import { Comment } from "../Editable/Comment.tsx";
 
 const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   if (!task) return null;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
+  const { comments, loading: commentsLoading } = useComments(task.id);
+  const [newComment, setNewComment] = useState("");
+  const { user } = useAuth();
 
-  const handleDelete = async () => {
-    if (confirm('Удалить задачу?')) {
+  const handleDeleteTask = async () => {
+    if (confirm("Удалить задачу?")) {
       await deleteTask(task.id);
       onUpdated?.();
       onClose();
     }
   };
+
+  const handleCreateComment = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey && newComment !== "") {
+      createComment(newComment, user.email, doc(db, "tasks", task.id));
+      setNewComment("");
+    } else if (e.key === "Escape") {
+      setNewComment("");
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    if (confirm("Удалить коментарий?")) {
+      await deleteComment(commentId);
+      onUpdated?.();
+      onClose();
+    }
+  };
+
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.modalWrapper} onClick={onClose}>
         <div className={styles.modalHeader}>
-          <button onClick={handleDelete} className={styles.icon}>
+          <button onClick={handleDeleteTask} className={styles.icon}>
             Delete
           </button>
           <button className={styles.closeButton} onClick={onClose}>
             ✕
           </button>
-          <p>Task Id: </p>
         </div>
 
         <div onClick={(e) => e.stopPropagation()}>
@@ -65,12 +91,32 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             </div>
           </div>
           <div className={styles.comments}>
-            <div className={styles.comment}>
-              <div className={styles.commentInfo}>
-                <div className={styles.commentName}>AT</div>
-                <p className={styles.commentText}>I don't wanna do this</p>
-              </div>
-              <p className={styles.commentData}>Thu 12:45</p>
+            <h3>Comments</h3>
+            {commentsLoading ? (
+              <p>Loading comments...</p>
+            ) : comments.length === 0 ? (
+              <p>No comments yet.</p>
+            ) : (
+              comments.map((comment) => (
+                <div key={comment.id}>
+                  <Comment comment={comment} onDelete={handleDeleteComment} task={task}/>
+                  {comment.children.map((child) => (
+                      <Comment
+                        key={child.id}
+                        comment={child}
+                        onDelete={handleDeleteComment}
+                      />
+                    ))}
+                </div>
+              ))
+            )}
+            <div key={"add comment"}>
+              <p>Add comment:</p>
+              <input
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={handleCreateComment}
+              />
             </div>
           </div>
         </div>

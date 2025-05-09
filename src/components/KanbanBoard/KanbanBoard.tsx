@@ -11,7 +11,7 @@ import { TaskCard } from "./TaskCard/TaskCard.tsx";
 import { Task } from "../../types/TaskTypes.ts";
 import TaskModal from "../TaskModal/TaskModal.tsx";
 import { CreateTaskModal } from "../TaskModal/TaskCreateModal/TaskCreateModal.tsx";
-import {useAuth} from "../../hooks/useAuth.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
 
 export const KanbanBoard: FC = () => {
   const { columns, loading: columnsLoading } = useColumns();
