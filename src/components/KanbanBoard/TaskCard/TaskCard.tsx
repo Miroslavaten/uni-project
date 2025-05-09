@@ -48,7 +48,7 @@ export const TaskCard: FC<{
         <div className={styles.statusDot} />
       </div>
       <p className={styles.description}>{description}</p>
-      <div className={styles.author}>@{author}</div>
+      <div className={styles.author}>{author}</div>
     </div>
   );
 };

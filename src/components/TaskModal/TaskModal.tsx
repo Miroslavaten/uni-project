@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './TaskModal.module.scss';
-import { updateTask } from '../../services/taskService.ts';
+import { deleteTask, updateTask } from '../../services/taskService.ts';
 import { EditableField } from '../Editable/EditableField.tsx';
 import { TaskDetailsProps } from '../../types/TaskTypes.ts';
 
@@ -8,16 +8,27 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   if (!task) return null;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
-  const [legend, setLegend] = useState(task.legend);
 
+  const handleDelete = async () => {
+    if (confirm('Удалить задачу?')) {
+      await deleteTask(task.id);
+      onUpdated?.();
+      onClose();
+    }
+  };
   return (
     <div className={styles.modalBackdrop}>
       <div className={styles.modalWrapper} onClick={onClose}>
         <div className={styles.modalHeader}>
+          <button onClick={handleDelete} className={styles.icon}>
+            Delete
+          </button>
           <button className={styles.closeButton} onClick={onClose}>
             ✕
           </button>
+          <p>Task Id: </p>
         </div>
+
         <div onClick={(e) => e.stopPropagation()}>
           <div className={styles.taskInfoWrapper}>
             <div className={styles.taskInfo}>
@@ -30,7 +41,6 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                 }}
                 className={styles.title}
               />
-              <h3 className={styles.description}>Description</h3>
               <EditableField
                 value={description}
                 onSave={async (val) => {
@@ -39,18 +49,8 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                   onUpdated?.();
                 }}
                 textarea
-                className={styles.descriptionText}
+                className={styles.description}
               />
-              {/* <EditableField
-            value={legend}
-            onSave={async (val) => {
-              setLegend(val);
-              await updateTask(task.id, { legend: val });
-              onUpdated?.();
-            }}
-            textarea
-            className={styles.editable}
-          /> */}
             </div>
             <div className={styles.extraInfo}>
               <p>
