@@ -1,7 +1,6 @@
-import { FC } from 'react';
-import KanbanBoard from '../../components/KanbanBoard/KanbanBoard';
-import styles from './mainPage.module.scss';
-import TaskModal from '../../components/TaskModal/TaskModal';
+import React, { FC } from "react";
+import KanbanBoard from "../../components/KanbanBoard/KanbanBoard";
+import styles from "./mainPage.module.scss";
 
 const MainPage: FC = () => {
   return (
@@ -19,7 +18,6 @@ const MainPage: FC = () => {
         </p>
       </div>
       <KanbanBoard />
-      <TaskModal />
     </div>
   );
 };

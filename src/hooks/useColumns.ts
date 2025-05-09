@@ -1,9 +1,15 @@
 // hooks/useColumns.ts
 import { useEffect, useState } from "react";
-import { collection, getDocs, orderBy, query, QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  DocumentData,
+} from "firebase/firestore";
 import { db } from "../firebase";
-import {Column} from "../types/ColumnsTypes.ts";
-
+import { Column } from "../types/ColumnsTypes.ts";
 
 const columnConverter = {
   toFirestore(column: Column): DocumentData {
@@ -30,7 +36,9 @@ export const useColumns = () => {
         const q = query(columnsRef, orderBy("order", "asc"));
         const querySnapshot = await getDocs(q);
 
-        const cols: Column[] = querySnapshot.docs.map((doc) => columnConverter.fromFirestore(doc));
+        const cols: Column[] = querySnapshot.docs.map((doc) =>
+          columnConverter.fromFirestore(doc),
+        );
         setColumns(cols);
       } catch (error) {
         console.error("Error fetching columns:", error);

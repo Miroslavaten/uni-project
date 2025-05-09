@@ -6,16 +6,24 @@ import {
   serverTimestamp,
   updateDoc,
   deleteDoc,
-  DocumentReference
+  DocumentReference,
 } from "firebase/firestore";
-import {Task} from "../types/TaskTypes.ts";
+import { Task } from "../types/TaskTypes.ts";
 
 const tasksCollection = collection(db, "tasks");
 
-export const createTask = async (title: string, description: string, columnRef: DocumentReference, order: number = 0) => {
+export const createTask = async (
+  author: string,
+  title: string,
+  description: string,
+  columnRef: DocumentReference,
+  order: number = 0,
+) => {
   const newTask = {
+    author,
     title,
     description,
+    legend: "",
     columnId: columnRef,
     order,
     createdAt: serverTimestamp(),
@@ -26,7 +34,10 @@ export const createTask = async (title: string, description: string, columnRef: 
   return taskDoc.id;
 };
 
-export const updateTask = async (taskId: string, updates: Partial<Omit<Task, "id">>) => {
+export const updateTask = async (
+  taskId: string,
+  updates: Partial<Omit<Task, "id">>,
+) => {
   const taskDocRef = doc(db, "tasks", taskId);
 
   await updateDoc(taskDocRef, {
