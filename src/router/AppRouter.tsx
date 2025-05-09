@@ -1,6 +1,6 @@
 // src/routes.tsx
-import { Routes, Route } from 'react-router-dom';
-import MainPage from '../pages/MainPage/MainPage';
+import { Routes, Route } from "react-router-dom";
+import MainPage from "../pages/MainPage/MainPage";
 
 const AppRoutes = () => {
   return (

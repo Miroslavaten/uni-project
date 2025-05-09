@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from 'react';
-import { TodoContextType, TodoProviderProps } from '../types/TodoTypes';
+import { createContext, useContext, useState } from "react";
+import { TodoContextType, TodoProviderProps } from "../types/TodoTypes";
 
 export const TodoContext = createContext<TodoContextType>({
   todos: [],

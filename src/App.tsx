@@ -1,8 +1,8 @@
-import './styles/mainStyles.scss';
-import AppRoutes from './router/AppRouter.tsx';
+import "./styles/mainStyles.scss";
+import AppRoutes from "./router/AppRouter.tsx";
 
 function App() {
-  console.log('tytyui');
+  console.log("tytyui");
 
   return (
     <div className="container">
