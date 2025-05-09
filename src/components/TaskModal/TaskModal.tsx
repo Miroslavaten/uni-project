@@ -1,17 +1,26 @@
-import React, { FC, useState } from "react";
+import React, {FC, useState} from "react";
 import styles from "./TaskModal.module.scss";
-import { updateTask } from "../../services/taskService.ts";
-import { EditableField } from "../Editable/EditableField.tsx";
-import { TaskDetailsProps } from "../../types/TaskTypes.ts";
+import {deleteTask, updateTask} from "../../services/taskService.ts";
+import {EditableField} from "../Editable/EditableField.tsx";
+import {TaskDetailsProps} from "../../types/TaskTypes.ts";
 
-const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
+const TaskModal: FC<TaskDetailsProps> = ({task, onClose, onUpdated}) => {
   if (!task) return null;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [legend, setLegend] = useState(task.legend);
 
+  const handleDelete = async () => {
+    if (confirm("Удалить задачу?")) {
+      await deleteTask(task.id);
+      onUpdated?.();
+      onClose();
+    }
+  };
   return (
     <div onClick={onClose}>
+      <button onClick={handleDelete} className={styles.icon}>Delete</button>
+
       <button className={styles.closeButton} onClick={onClose}>
         ✕
       </button>
@@ -23,7 +32,7 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             value={title}
             onSave={async (val) => {
               setTitle(val);
-              await updateTask(task.id, { title: val });
+              await updateTask(task.id, {title: val});
               onUpdated?.();
             }}
             className={styles.editable}
@@ -32,7 +41,7 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             value={description}
             onSave={async (val) => {
               setDescription(val);
-              await updateTask(task.id, { description: val });
+              await updateTask(task.id, {description: val});
               onUpdated?.();
             }}
             textarea
@@ -42,7 +51,7 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             value={legend}
             onSave={async (val) => {
               setLegend(val);
-              await updateTask(task.id, { legend: val });
+              await updateTask(task.id, {legend: val});
               onUpdated?.();
             }}
             textarea
