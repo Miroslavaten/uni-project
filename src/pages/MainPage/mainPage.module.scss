@@ -1,0 +1,13 @@
+@import '../../styles/variables.scss';
+
+.title {
+  font-size: $font-size-h1;
+  text-align: left;
+  font-weight: bold;
+}
+
+.description {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: $spacing-large;
+}

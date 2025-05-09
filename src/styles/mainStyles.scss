@@ -1,0 +1,36 @@
+@import './variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: $color-text-dark;
+  background-color: $color-background-main;
+  font-family: $font-main;
+  line-height: 1.5;
+  text-align: center;
+
+  .container {
+    padding: 50px;
+    min-width: 1280px;
+  }
+}
+
+button {
+  border-radius: $radius-small;
+  border: 1px solid transparent;
+  padding: $spacing-small $spacing-medium;
+  font-size: $font-size-title;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: $color-text-dark;
+  cursor: pointer;
+  transition: border-color 0.25s;
+
+  &:hover {
+    border-color: $color-hover-border;
+  }
+}
