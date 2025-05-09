@@ -99,14 +99,18 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             ) : (
               comments.map((comment) => (
                 <div key={comment.id}>
-                  <Comment comment={comment} onDelete={handleDeleteComment} task={task}/>
+                  <Comment
+                    comment={comment}
+                    onDelete={handleDeleteComment}
+                    task={task}
+                  />
                   {comment.children.map((child) => (
-                      <Comment
-                        key={child.id}
-                        comment={child}
-                        onDelete={handleDeleteComment}
-                      />
-                    ))}
+                    <Comment
+                      key={child.id}
+                      comment={child}
+                      onDelete={handleDeleteComment}
+                    />
+                  ))}
                 </div>
               ))
             )}

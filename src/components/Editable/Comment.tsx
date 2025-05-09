@@ -39,22 +39,29 @@ export const Comment: React.FC<CommentProps> = ({
         doc(db, "comments", comment.id),
       );
       setReplyText("");
-      setAddReply(false)
+      setAddReply(false);
     } else if (e.key === "Escape") {
       setReplyText("");
-      setAddReply(false)
+      setAddReply(false);
     }
   };
 
   return (
-    <div className={styles.comment} style={{
-      marginLeft: comment.isReply ? 50 : 0
-    }}>
+    <div
+      className={styles.comment}
+      style={{
+        marginLeft: comment.isReply ? 50 : 0,
+      }}
+    >
       <div className={styles.commentInfo}>
-        <div className={styles.commentName}>{comment.author.slice(0,2)}</div>
+        <div className={styles.commentName}>{comment.author.slice(0, 2)}</div>
         <p className={styles.commentText}>{comment.text}</p>
         <button onClick={() => onDelete(comment.id)}>Delete</button>
-        {!comment.isReply && <button onClick={() => setAddReply(!addReply)}>{addReply ? 'Cancel' :'Reply'}</button>}
+        {!comment.isReply && (
+          <button onClick={() => setAddReply(!addReply)}>
+            {addReply ? "Cancel" : "Reply"}
+          </button>
+        )}
         {addReply && (
           <input
             value={replyText}
