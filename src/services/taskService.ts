@@ -16,7 +16,7 @@ const PRIORITY_VALUES = {
   low: 0,
   medium: 1,
   high: 2,
-}
+};
 
 export const createTask = async (
   author: string,
@@ -46,8 +46,8 @@ export const updateTask = async (
 ) => {
   const taskDocRef = doc(db, "tasks", taskId);
 
-  if (updates.priority){
-    updates.priorityValue = PRIORITY_VALUES[updates.priority]
+  if (updates.priority) {
+    updates.priorityValue = PRIORITY_VALUES[updates.priority];
   }
   await updateDoc(taskDocRef, {
     ...updates,
