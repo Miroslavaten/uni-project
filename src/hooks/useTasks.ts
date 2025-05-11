@@ -1,5 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { collection, getDocs, orderBy, query, where, QueryDocumentSnapshot, DocumentData, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  where,
+  QueryDocumentSnapshot,
+  DocumentData,
+  doc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { Task } from "../types/TaskTypes.ts";
 import { Timestamp } from "firebase/firestore";
@@ -14,6 +23,7 @@ const taskConverter = {
       id: snapshot.id,
       title: data.title,
       description: data.description,
+      legend: data.legend,
       columnId: data.columnId,
       author: data.author,
       order: data.order,
@@ -34,10 +44,12 @@ export const useTasks = (columnId: string) => {
       const q = query(
         tasksRef,
         where("columnId", "==", doc(db, "columns", columnId)),
-        orderBy("order", "asc")
+        orderBy("order", "asc"),
       );
       const querySnapshot = await getDocs(q);
-      const loadedTasks: Task[] = querySnapshot.docs.map((doc) => taskConverter.fromFirestore(doc));
+      const loadedTasks: Task[] = querySnapshot.docs.map((doc) =>
+        taskConverter.fromFirestore(doc),
+      );
       setTasks(loadedTasks);
     } catch (error) {
       console.error("Error fetching tasks:", error);

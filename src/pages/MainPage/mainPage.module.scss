@@ -1,0 +1,32 @@
+@use '../../styles/variables.scss' as *;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .userName {
+    font-size: $font-size-text;
+    color: $color-text-muted;
+    margin-right: 15px;
+  }
+  .signOutButton {
+    background-color: $color-accent;
+    width: 90px;
+    border-radius: $radius-small;
+    font-size: $font-size-small;
+    color: $color-text-extra-light;
+  }
+}
+
+.title {
+  font-size: $font-size-h1;
+  text-align: left;
+  font-weight: bold;
+}
+
+.description {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: $spacing-large;
+}
