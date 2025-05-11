@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import styles from '../TaskModal/TaskModal.module.scss';
-import { createComment, updateComment } from '../../services/commentService.ts';
-import { EditableField } from './EditableField.tsx';
-import { doc } from 'firebase/firestore';
-import { db } from '../../firebase.ts';
-import { useAuth } from '../../hooks/useAuth.ts';
-import { Task } from '../../types/TaskTypes.ts';
+import React, { useState } from "react";
+import styles from "../TaskModal/TaskModal.module.scss";
+import { createComment, updateComment } from "../../services/commentService.ts";
+import { EditableField } from "./EditableField.tsx";
+import { doc } from "firebase/firestore";
+import { db } from "../../firebase.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
+import { Task } from "../../types/TaskTypes.ts";
 
 export interface CommentData {
   id: string;
@@ -30,23 +30,23 @@ export const Comment: React.FC<CommentProps> = ({
 }) => {
   const [description, setDescription] = useState(comment.text);
   const [addReply, setAddReply] = useState(false);
-  const [replyText, setReplyText] = useState('');
+  const [replyText, setReplyText] = useState("");
   const { user } = useAuth();
 
   const handleAddReply = async (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey && replyText !== '') {
+    if (e.key === "Enter" && !e.shiftKey && replyText !== "") {
       await createComment(
         replyText,
-        user?.email || '',
-        doc(db, 'tasks', task.id),
+        user?.email || "",
+        doc(db, "tasks", task.id),
         true,
-        doc(db, 'comments', comment.id)
+        doc(db, "comments", comment.id),
       );
       await refetch?.();
-      setReplyText('');
+      setReplyText("");
       setAddReply(false);
-    } else if (e.key === 'Escape') {
-      setReplyText('');
+    } else if (e.key === "Escape") {
+      setReplyText("");
       setAddReply(false);
     }
   };
@@ -71,7 +71,7 @@ export const Comment: React.FC<CommentProps> = ({
         <button onClick={() => onDelete(comment.id)}>Delete</button>
         {!comment.isReply && (
           <button onClick={() => setAddReply(!addReply)}>
-            {addReply ? 'Cancel' : 'Reply'}
+            {addReply ? "Cancel" : "Reply"}
           </button>
         )}
         {!comment.isReply && addReply && (
