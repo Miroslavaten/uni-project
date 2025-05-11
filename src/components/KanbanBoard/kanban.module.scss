@@ -1,0 +1,53 @@
+@import '../../styles/variables.scss';
+
+.board {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: $spacing-large 0;
+  overflow-x: auto;
+  height: calc(100vh - 40px);
+
+  .column {
+    background-color: $color-background-card;
+    border-radius: $radius-small;
+    max-width: 375px;
+    width: 100%;
+    padding: $spacing-large;
+    display: flex;
+    flex-direction: column;
+    box-shadow: $shadow-medium;
+    max-height: calc(100vh - 100px);
+
+    .columnHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-large;
+
+      .columnTitle {
+        font-size: $font-size-title;
+        font-weight: bold;
+        color: $color-text-light;
+      }
+
+      .addIcon {
+        cursor: pointer;
+      }
+    }
+
+    .taskList {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-large;
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-large;
+      overflow-y: auto;
+      flex-grow: 1;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
