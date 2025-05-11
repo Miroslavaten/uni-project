@@ -1,4 +1,4 @@
-@use "../../styles/variables.scss" as *;
+@use '../../styles/variables.scss' as *;
 
 .header {
   display: flex;
@@ -27,6 +27,5 @@
 
 .description {
   text-align: left;
-  font-weight: bold;
   margin-bottom: $spacing-large;
 }

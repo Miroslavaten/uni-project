@@ -1,29 +1,45 @@
-import React, { FC, useRef, useState } from "react";
-import { useColumns } from "../../hooks/useColumns.ts";
-import { useTasks } from "../../hooks/useTasks.ts";
-import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
-import { KanbanColumnPropsWithRegister } from "../../types/KanbanTypes.ts";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase.ts";
-import styles from "./kanban.module.scss";
-import AddIcon from "../../assets/addIcon.svg";
-import { TaskCard } from "./TaskCard/TaskCard.tsx";
-import { Task } from "../../types/TaskTypes.ts";
-import TaskModal from "../TaskModal/TaskModal.tsx";
-import { CreateTaskModal } from "../TaskModal/TaskCreateModal/TaskCreateModal.tsx";
-import { useAuth } from "../../hooks/useAuth.ts";
+import React, { FC, useRef, useState } from 'react';
+import { useColumns } from '../../hooks/useColumns.ts';
+import { useTasks } from '../../hooks/useTasks.ts';
+import {
+  DndContext,
+  DragEndEvent,
+  DragStartEvent,
+  useDroppable,
+  DragOverlay,
+} from '@dnd-kit/core';
+import { KanbanColumnPropsWithRegister } from '../../types/KanbanTypes.ts';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase.ts';
+import styles from './kanban.module.scss';
+import AddIcon from '../../assets/addIcon.svg';
+import { TaskCard } from './TaskCard/TaskCard.tsx';
+import { Task } from '../../types/TaskTypes.ts';
+import TaskModal from '../TaskModal/TaskModal.tsx';
+import { CreateTaskModal } from '../TaskModal/TaskCreateModal/TaskCreateModal.tsx';
+import { useAuth } from '../../hooks/useAuth.ts';
 
 export const KanbanBoard: FC = () => {
   const { columns, loading: columnsLoading } = useColumns();
   const columnsRefs = useRef<Record<string, () => void>>({});
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   if (columnsLoading) {
     return <div>Loading columns...</div>;
   }
 
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleDragStart = ({ active }: DragStartEvent) => {
+    setActiveTaskId(active.id as string);
+    const task = active.data.current?.task as Task;
+    if (task) {
+      setActiveTask(task);
+    }
+  };
+
+  const handleDragEnd = async ({ active, over }: DragEndEvent) => {
+    setActiveTaskId(null);
 
     if (over && active.id !== over.id) {
       const taskId = active.id as string;
@@ -31,13 +47,13 @@ export const KanbanBoard: FC = () => {
 
       if (active.data.current?.columnId !== newColumnId) {
         try {
-          const taskRef = doc(db, "tasks", taskId);
+          const taskRef = doc(db, 'tasks', taskId);
           await updateDoc(taskRef, {
-            columnId: doc(db, "columns", newColumnId),
+            columnId: doc(db, 'columns', newColumnId),
           });
           Object.values(columnsRefs.current).forEach((refetch) => refetch());
         } catch (error) {
-          console.error("Failed to move task:", error);
+          console.error('Failed to move task:', error);
         }
       }
     }
@@ -52,7 +68,7 @@ export const KanbanBoard: FC = () => {
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
       <div className={styles.board}>
         {columns.map((column) => (
           <KanbanColumn
@@ -63,9 +79,20 @@ export const KanbanBoard: FC = () => {
               columnsRefs.current[column.id] = refetch;
             }}
             onTaskClick={setSelectedTask}
+            activeTaskId={activeTaskId}
           />
         ))}
       </div>
+      <DragOverlay>
+        {activeTask ? (
+          <TaskCard
+            task={activeTask}
+            columnId={activeTask.columnId.id}
+            onClick={() => {}}
+            isDragging={false}
+          />
+        ) : null}
+      </DragOverlay>
       {selectedTask && (
         <TaskModal
           task={selectedTask}
@@ -82,6 +109,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
   title,
   registerRefetch,
   onTaskClick,
+  activeTaskId,
 }) => {
   const { tasks, loading: tasksLoading, refetch } = useTasks(columnId);
   const { setNodeRef } = useDroppable({
@@ -110,8 +138,8 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
       </div>
       {isCreating && (
         <CreateTaskModal
-          columnRef={doc(db, "columns", columnId)}
-          author={user.email}
+          columnRef={doc(db, 'columns', columnId)}
+          author={user?.email || ''}
           onClose={() => setIsCreating(false)}
           onCreated={refetch}
         />
@@ -126,6 +154,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
               task={task}
               columnId={columnId}
               onClick={() => onTaskClick(task)}
+              isDragging={task.id === activeTaskId}
             />
           ))}
         </div>

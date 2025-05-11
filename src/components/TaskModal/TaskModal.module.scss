@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import '../../styles/variables.scss';
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -68,9 +68,20 @@
         padding-left: $spacing-large;
       }
     }
+
+    .commentsTitle {
+      display: flex;
+    }
+
     .comments {
       padding: $spacing-large;
+      display: flex;
+      justify-content: space-between;
 
+      .commentsWrapper {
+        display: flex;
+        flex-direction: column;
+      }
       .comment {
         display: flex;
         justify-content: space-between;
