@@ -1,26 +1,25 @@
-import React, { FC, useState } from "react";
-import styles from "./TaskModal.module.scss";
-import { deleteTask, updateTask } from "../../services/taskService.ts";
-import { EditableField } from "../Editable/EditableField.tsx";
-import { TaskDetailsProps } from "../../types/TaskTypes.ts";
-import { useComments } from "../../hooks/useComment.ts";
-import { createComment, deleteComment } from "../../services/commentService.ts";
-import { useAuth } from "../../hooks/useAuth.ts";
-import { doc } from "firebase/firestore";
-import { db } from "../../firebase.ts";
-import { Comment } from "../Editable/Comment.tsx";
-import { Comment as CommentType } from "../../types/CommentTypes.ts";
+import React, { FC, useState } from 'react';
+import styles from './TaskModal.module.scss';
+import { deleteTask, updateTask } from '../../services/taskService.ts';
+import { EditableField } from '../Editable/EditableField.tsx';
+import { TaskDetailsProps } from '../../types/TaskTypes.ts';
+import { useComments } from '../../hooks/useComment.ts';
+import { createComment, deleteComment } from '../../services/commentService.ts';
+import { useAuth } from '../../hooks/useAuth.ts';
+import { doc } from 'firebase/firestore';
+import { db } from '../../firebase.ts';
+import { Comment } from '../Editable/Comment.tsx';
 
 const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   if (!task) return null;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const { comments, loading: commentsLoading, refetch } = useComments(task.id);
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState('');
   const { user } = useAuth();
 
   const handleDeleteTask = async () => {
-    if (confirm("Удалить задачу?")) {
+    if (confirm('Delete task?')) {
       await deleteTask(task.id);
       onUpdated?.();
       onClose();
@@ -28,18 +27,22 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   };
 
   const handleCreateComment = async (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey && newComment !== "") {
-      await createComment(newComment, user.email, doc(db, "tasks", task.id));
-      setNewComment("");
+    if (e.key === 'Enter' && !e.shiftKey && newComment !== '') {
+      await createComment(
+        newComment,
+        user?.email || '',
+        doc(db, 'tasks', task.id)
+      );
+      setNewComment('');
       await refetch();
-    } else if (e.key === "Escape") {
-      setNewComment("");
+    } else if (e.key === 'Escape') {
+      setNewComment('');
       await refetch();
     }
   };
 
   const handleDeleteComment = async (commentId: string) => {
-    if (confirm("Удалить коментарий?")) {
+    if (confirm('Delete comment?')) {
       await deleteComment(commentId);
       await refetch();
     }
@@ -92,33 +95,35 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
               </p>
             </div>
           </div>
+          <h3 className={styles.commentsTitle}>Comments</h3>
           <div className={styles.comments}>
-            <h3>Comments</h3>
-            {commentsLoading ? (
-              <p>Loading comments...</p>
-            ) : comments.length === 0 ? (
-              <p>No comments yet.</p>
-            ) : (
-              comments.map((comment) => (
-                <div key={comment.id}>
-                  <Comment
-                    comment={comment}
-                    onDelete={handleDeleteComment}
-                    refetch={refetch}
-                    task={task}
-                  />
-                  {comment.children.map((child) => (
+            <div className={styles.commentsWrapper}>
+              {commentsLoading ? (
+                <p>Loading comments...</p>
+              ) : comments.length === 0 ? (
+                <p>No comments yet.</p>
+              ) : (
+                comments.map((comment) => (
+                  <div key={comment.id}>
                     <Comment
-                      key={child.id}
-                      comment={child}
+                      comment={comment}
                       onDelete={handleDeleteComment}
+                      refetch={refetch}
                       task={task}
                     />
-                  ))}
-                </div>
-              ))
-            )}
-            <div key={"add comment"}>
+                    {comment.children.map((child) => (
+                      <Comment
+                        key={child.id}
+                        comment={child}
+                        onDelete={handleDeleteComment}
+                        task={task}
+                      />
+                    ))}
+                  </div>
+                ))
+              )}
+            </div>
+            <div key={'add comment'}>
               <p>Add comment:</p>
               <input
                 value={newComment}

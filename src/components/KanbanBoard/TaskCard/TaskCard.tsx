@@ -1,18 +1,19 @@
-import React, { FC, useRef } from "react";
-import { Task } from "../../../types/TaskTypes.ts";
-import { useDraggable } from "@dnd-kit/core";
-import styles from "./taskCard.module.scss";
+import React, { FC, useRef } from 'react';
+import { Task } from '../../../types/TaskTypes.ts';
+import { useDraggable } from '@dnd-kit/core';
+import styles from './taskCard.module.scss';
 
 export const TaskCard: FC<{
   task: Task;
   columnId: string;
   onClick: () => void;
-}> = ({ task, columnId, onClick }) => {
+  isDragging: boolean;
+}> = ({ task, columnId, onClick, isDragging }) => {
   const { id, title, description, author } = task;
 
   const { setNodeRef, listeners, attributes, transform } = useDraggable({
     id,
-    data: { columnId },
+    data: { columnId, task },
   });
 
   const mouseDownTime = useRef<number>(0);
@@ -39,10 +40,11 @@ export const TaskCard: FC<{
         transform: transform
           ? `translate(${transform.x}px, ${transform.y}px)`
           : undefined,
-        cursor: "grab",
-        position: transform ? "fixed" : "relative", //! fixed — держим под курсором (нифига он не держит)
-        zIndex: transform ? 1000 : "auto",
-        width: transform ? "275px" : "auto", // сохранить размер карточки
+        cursor: 'grab',
+        // position: transform ? 'fixed' : 'relative', //! fixed — держим под курсором (нифига он не держит)
+        zIndex: transform ? 1000 : 'auto',
+        width: transform ? '275px' : 'auto', // сохранить размер карточки
+        opacity: isDragging ? 0.5 : 1,
       }}
       className={styles.card}
     >
