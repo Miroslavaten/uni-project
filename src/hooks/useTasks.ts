@@ -23,10 +23,8 @@ const taskConverter = {
       id: snapshot.id,
       title: data.title,
       description: data.description,
-      legend: data.legend,
       columnId: data.columnId,
       author: data.author,
-      order: data.order,
       createdAt: (data.createdAt as Timestamp)?.toDate() ?? new Date(),
       updatedAt: (data.updatedAt as Timestamp)?.toDate() ?? new Date(),
     };
@@ -44,7 +42,7 @@ export const useTasks = (columnId: string) => {
       const q = query(
         tasksRef,
         where("columnId", "==", doc(db, "columns", columnId)),
-        orderBy("order", "asc"),
+        orderBy("createdAt", "asc"),
       );
       const querySnapshot = await getDocs(q);
       const loadedTasks: Task[] = querySnapshot.docs.map((doc) =>
