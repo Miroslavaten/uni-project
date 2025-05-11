@@ -1,23 +1,23 @@
-import React, {FC, useState} from "react";
+import React, { FC, useState } from "react";
 import styles from "./TaskModal.module.scss";
-import {deleteTask, updateTask} from "../../services/taskService.ts";
-import {EditableField} from "../Editable/EditableField.tsx";
-import {TaskDetailsProps} from "../../types/TaskTypes.ts";
-import {useComments} from "../../hooks/useComment.ts";
-import {createComment, deleteComment} from "../../services/commentService.ts";
-import {useAuth} from "../../hooks/useAuth.ts";
-import {doc} from "firebase/firestore";
-import {db} from "../../firebase.ts";
-import {Comment} from "../Editable/Comment.tsx";
-import {Comment as CommentType} from "../../types/CommentTypes.ts";
+import { deleteTask, updateTask } from "../../services/taskService.ts";
+import { EditableField } from "../Editable/EditableField.tsx";
+import { TaskDetailsProps } from "../../types/TaskTypes.ts";
+import { useComments } from "../../hooks/useComment.ts";
+import { createComment, deleteComment } from "../../services/commentService.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
+import { doc } from "firebase/firestore";
+import { db } from "../../firebase.ts";
+import { Comment } from "../Editable/Comment.tsx";
+import { Comment as CommentType } from "../../types/CommentTypes.ts";
 
 const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   if (!task) return null;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
-  const {comments, loading: commentsLoading, refetch} = useComments(task.id);
+  const { comments, loading: commentsLoading, refetch } = useComments(task.id);
   const [newComment, setNewComment] = useState("");
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const handleDeleteTask = async () => {
     if (confirm("Удалить задачу?")) {
@@ -31,17 +31,17 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
     if (e.key === "Enter" && !e.shiftKey && newComment !== "") {
       await createComment(newComment, user.email, doc(db, "tasks", task.id));
       setNewComment("");
-      await refetch()
+      await refetch();
     } else if (e.key === "Escape") {
       setNewComment("");
-      await refetch()
+      await refetch();
     }
   };
 
   const handleDeleteComment = async (commentId: string) => {
     if (confirm("Удалить коментарий?")) {
       await deleteComment(commentId);
-      await refetch()
+      await refetch();
     }
   };
 
@@ -104,7 +104,7 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                   <Comment
                     comment={comment}
                     onDelete={handleDeleteComment}
-                      refetch={refetch}
+                    refetch={refetch}
                     task={task}
                   />
                   {comment.children.map((child) => (
