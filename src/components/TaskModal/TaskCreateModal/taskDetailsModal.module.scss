@@ -1,0 +1,52 @@
+@use '../../../styles/variables.scss' as *;
+
+.modal {
+  background-color: $color-background-main;
+  padding: $spacing-medium;
+  border: 1px solid $color-accent;
+  border-radius: $radius-medium;
+  box-shadow: $shadow-light;
+  margin-bottom: $spacing-large;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-small;
+  height: auto;
+  min-height: 120px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-size: $font-size-title;
+      font-weight: 600;
+      color: #000;
+      margin: 0;
+    }
+
+    .icon {
+      font-size: 18px;
+      padding: 0;
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    font-size: $font-size-text;
+    font-family: $font-main;
+    padding: 5px;
+    border: 1px solid $color-background-task;
+    border-radius: 4px;
+  }
+
+  .saveButton {
+    background-color: $color-accent;
+    width: 90px;
+    border-radius: $radius-small;
+    font-size: $font-size-small;
+    margin-left: auto;
+    color: $color-text-extra-light;
+  }
+}

@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@import './variables.scss';
 
 * {
   margin: 0;
@@ -15,13 +15,13 @@ body {
 
   .container {
     padding: 50px;
-    min-width: 1280px;
+    max-width: 1440px;
+    margin: 0 auto;
   }
 }
 
 button {
-  border-radius: $radius-small;
-  border: 1px solid transparent;
+  border: none;
   padding: $spacing-small $spacing-medium;
   font-size: $font-size-title;
   font-weight: 500;

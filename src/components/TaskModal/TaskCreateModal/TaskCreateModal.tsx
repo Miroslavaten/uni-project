@@ -1,7 +1,7 @@
-import React, { FC, useState } from "react";
-import styles from "./taskDetailsModal.module.scss";
-import { DocumentReference } from "firebase/firestore";
-import { createTask } from "../../../services/taskService.ts";
+import React, { FC, useState } from 'react';
+import styles from './taskDetailsModal.module.scss';
+import { DocumentReference } from 'firebase/firestore';
+import { createTask } from '../../../services/taskService.ts';
 
 interface CreateTaskModalProps {
   columnRef: DocumentReference;
@@ -16,8 +16,8 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
   onCreated,
   author,
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleCreate = async () => {
@@ -28,7 +28,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
       onCreated();
       onClose();
     } catch (error) {
-      console.error("Ошибка при создании задачи:", error);
+      console.error('Ошибка при создании задачи:', error);
     } finally {
       setLoading(false);
     }
@@ -38,30 +38,30 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.header}>
-          <h2>Создание задачи</h2>
+          <h2 className={styles.title}>Create task</h2>
           <button onClick={onClose} className={styles.icon}>
-            X
+            ✕
           </button>
         </div>
 
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Заголовок"
-          className={styles.input}
+          placeholder="Task title"
+          className={styles.taskTitle}
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Описание"
-          className={styles.textarea}
+          placeholder="Task description"
+          className={styles.taskDescription}
         />
         <button
           onClick={handleCreate}
           className={styles.saveButton}
           disabled={loading}
         >
-          {loading ? "Создание..." : "Создать"}
+          {loading ? 'Creating...' : 'Create'}
         </button>
       </div>
     </div>

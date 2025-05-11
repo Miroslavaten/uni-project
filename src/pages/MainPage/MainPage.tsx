@@ -1,12 +1,22 @@
-import React, { FC } from "react";
-import KanbanBoard from "../../components/KanbanBoard/KanbanBoard";
-import styles from "./mainPage.module.scss";
-import { signOut } from "firebase/auth"
-import {auth} from "../../firebase.ts";
+import React, { FC } from 'react';
+import KanbanBoard from '../../components/KanbanBoard/KanbanBoard';
+import styles from './mainPage.module.scss';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase.ts';
+import { useAuth } from '../../hooks/useAuth.ts';
 
 const MainPage: FC = () => {
+  const { user } = useAuth();
   return (
     <div>
+      <div className={styles.header}>
+        <p className={styles.userName}>
+          {user ? user.email : 'not authorized'}
+        </p>
+        <button onClick={() => signOut(auth)} className={styles.signOutButton}>
+          Sign Out
+        </button>
+      </div>
       <div>
         <h1 className={styles.title}>ToDo List</h1>
         <p className={styles.description}>
@@ -18,7 +28,6 @@ const MainPage: FC = () => {
           nobis quia cum consequatur corporis. Provident fugiat doloribus
           laudantium soluta tempora necessitatibus repellendus perspiciatis aut!
         </p>
-        <button onClick={() => signOut(auth)}>Sign Out</button>
       </div>
       <KanbanBoard />
     </div>

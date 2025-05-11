@@ -20,13 +20,12 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
     <div className={styles.modalBackdrop}>
       <div className={styles.modalWrapper} onClick={onClose}>
         <div className={styles.modalHeader}>
-          <button onClick={handleDelete} className={styles.icon}>
+          <button onClick={handleDelete} className={styles.deleteButton}>
             Delete
           </button>
           <button className={styles.closeButton} onClick={onClose}>
             ✕
           </button>
-          <p>Task Id: </p>
         </div>
 
         <div onClick={(e) => e.stopPropagation()}>

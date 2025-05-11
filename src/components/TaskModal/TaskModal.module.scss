@@ -10,88 +10,98 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
-.modalWrapper {
-  background-color: $color-background-card;
-  width: 100%;
-  max-width: 1000px;
-  height: 500px;
-  border-radius: $radius-small;
-  padding: $spacing-large;
 
-  .modalHeader {
-    text-align: right;
-    margin-bottom: $spacing-large;
-
-    .taskId {
-      color: $color-text-muted;
-    }
-  }
-  .taskInfoWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .modalWrapper {
+    background-color: $color-background-card;
+    width: 100%;
+    max-width: 1000px;
+    height: 500px;
+    border-radius: $radius-small;
     padding: $spacing-large;
 
-    .taskInfo {
-      text-align: left;
-
-      .title {
-        font-size: 40px;
-        font-weight: bold;
-      }
-      .description {
-        font-size: $font-size-title;
-        font-weight: normal;
-      }
-      .descriptionText {
-        font-size: $font-size-text;
-      }
-    }
-
-    .extraInfo {
+    .modalHeader {
+      margin-bottom: $spacing-large;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 200px;
-      text-align: left;
-      border-left: 1px solid #1a1a11;
-      padding-left: $spacing-large;
-    }
-  }
-  .comments {
-    padding: $spacing-large;
+      align-items: center;
+      justify-content: flex-end;
 
-    .comment {
+      .deleteButton {
+        background-color: $color-accent;
+        width: 90px;
+        border-radius: $radius-small;
+        font-size: $font-size-small;
+        color: $color-text-extra-light;
+      }
+      .closeButton {
+        font-size: 20px;
+      }
+    }
+    .taskInfoWrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: $spacing-large;
 
-      .commentInfo {
+      .taskInfo {
+        text-align: left;
+
+        .title {
+          font-size: 40px;
+          font-weight: bold;
+        }
+        .description {
+          font-size: $font-size-title;
+          font-weight: normal;
+        }
+        .descriptionText {
+          font-size: $font-size-text;
+        }
+      }
+
+      .extraInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 200px;
+        text-align: left;
+        border-left: 1px solid #1a1a11;
+        padding-left: $spacing-large;
+      }
+    }
+    .comments {
+      padding: $spacing-large;
+
+      .comment {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        .commentName {
-          margin-right: $spacing-small;
-          color: $color-text-extra-light;
-          background-color: $color-text-dark;
-          width: 35px;
-          height: 35px;
-          border-radius: 50%;
+        .commentInfo {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          justify-content: center;
-        }
 
-        .commentText {
+          .commentName {
+            margin-right: $spacing-small;
+            color: $color-text-extra-light;
+            background-color: $color-text-dark;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .commentText {
+            color: $color-text-muted;
+            font-size: $font-size-text;
+          }
+        }
+        .commentData {
           color: $color-text-muted;
           font-size: $font-size-text;
         }
-      }
-      .commentData {
-        color: $color-text-muted;
-        font-size: $font-size-text;
       }
     }
   }
