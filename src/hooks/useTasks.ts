@@ -23,6 +23,7 @@ const taskConverter = {
       id: snapshot.id,
       title: data.title,
       description: data.description,
+      priority: data.priority,
       columnId: data.columnId,
       author: data.author,
       createdAt: (data.createdAt as Timestamp)?.toDate() ?? new Date(),
@@ -42,6 +43,7 @@ export const useTasks = (columnId: string) => {
       const q = query(
         tasksRef,
         where("columnId", "==", doc(db, "columns", columnId)),
+        orderBy("priorityValue", "desc"),
         orderBy("createdAt", "asc"),
       );
       const querySnapshot = await getDocs(q);

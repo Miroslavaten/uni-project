@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import "../../styles/variables.scss";
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -32,10 +33,12 @@
         font-size: $font-size-small;
         color: $color-text-extra-light;
       }
+
       .closeButton {
         font-size: 20px;
       }
     }
+
     .taskInfoWrapper {
       display: flex;
       justify-content: space-between;
@@ -49,10 +52,12 @@
           font-size: 40px;
           font-weight: bold;
         }
+
         .description {
           font-size: $font-size-title;
           font-weight: normal;
         }
+
         .descriptionText {
           font-size: $font-size-text;
         }
@@ -66,6 +71,19 @@
         text-align: left;
         border-left: 1px solid #1a1a11;
         padding-left: $spacing-large;
+
+        .select {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          max-width: 160px;
+        }
+      }
+
+      .statusDot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
       }
     }
 
@@ -82,6 +100,7 @@
         display: flex;
         flex-direction: column;
       }
+
       .comment {
         display: flex;
         justify-content: space-between;
@@ -109,6 +128,7 @@
             font-size: $font-size-text;
           }
         }
+
         .commentData {
           color: $color-text-muted;
           font-size: $font-size-text;
