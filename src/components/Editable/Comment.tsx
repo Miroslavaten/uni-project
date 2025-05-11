@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styles from "../TaskModal/TaskModal.module.scss";
-import { createComment, updateComment } from "../../services/commentService.ts";
-import { doc } from "firebase/firestore";
-import { db } from "../../firebase.ts";
-import { useAuth } from "../../hooks/useAuth.ts";
-import { Task } from "../../types/TaskTypes.ts";
+import {createComment, updateComment} from "../../services/commentService.ts";
 import { EditableField } from "./EditableField.tsx";
-import { c } from "vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf";
+import {doc} from "firebase/firestore";
+import {db} from "../../firebase.ts";
+import {useAuth} from "../../hooks/useAuth.ts";
+import {Task} from "../../types/TaskTypes.ts";
 
 export interface CommentData {
   id: string;
@@ -19,28 +18,31 @@ export interface CommentData {
 interface CommentProps {
   comment: CommentData;
   onDelete: (id: string) => void;
-  task: Task;
+  refetch: () => void;
+  task: Task
 }
 
 export const Comment: React.FC<CommentProps> = ({
   comment,
   onDelete,
+  refetch,
   task,
 }) => {
+  const [description, setDescription] = useState(comment.text);
   const [addReply, setAddReply] = useState(false);
   const [replyText, setReplyText] = useState("");
-  const [description, setDescription] = useState(comment.text);
-  const { user } = useAuth();
+  const {user} = useAuth();
 
-  const handleAddReply = (e: React.KeyboardEvent) => {
+  const handleAddReply = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey && replyText !== "") {
-      createComment(
+      await createComment(
         replyText,
         user.email,
         doc(db, "tasks", task.id),
         true,
         doc(db, "comments", comment.id),
       );
+      await refetch()
       setReplyText("");
       setAddReply(false);
     } else if (e.key === "Escape") {
@@ -72,7 +74,7 @@ export const Comment: React.FC<CommentProps> = ({
             {addReply ? "Cancel" : "Reply"}
           </button>
         )}
-        {addReply && (
+        {!comment.isReply && addReply && (
           <input
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
