@@ -17,15 +17,12 @@ export const createTask = async (
   title: string,
   description: string,
   columnRef: DocumentReference,
-  order: number = 0,
 ) => {
   const newTask = {
     author,
     title,
     description,
-    legend: "",
     columnId: columnRef,
-    order,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   };
