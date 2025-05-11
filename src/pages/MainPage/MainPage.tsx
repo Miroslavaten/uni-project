@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-import KanbanBoard from '../../components/KanbanBoard/KanbanBoard';
-import styles from './mainPage.module.scss';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../firebase.ts';
-import { useAuth } from '../../hooks/useAuth.ts';
+import React, { FC } from "react";
+import KanbanBoard from "../../components/KanbanBoard/KanbanBoard";
+import styles from "./mainPage.module.scss";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
 
 const MainPage: FC = () => {
   const { user } = useAuth();
@@ -11,7 +11,7 @@ const MainPage: FC = () => {
     <div>
       <div className={styles.header}>
         <p className={styles.userName}>
-          {user ? user.email : 'not authorized'}
+          {user ? user.email : "not authorized"}
         </p>
         <button onClick={() => signOut(auth)} className={styles.signOutButton}>
           Sign Out

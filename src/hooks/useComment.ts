@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   collection,
   query,
@@ -10,8 +10,8 @@ import {
   Timestamp,
   doc,
 } from "firebase/firestore";
-import {db} from "../firebase";
-import {Comment} from "../types/CommentTypes.ts";
+import { db } from "../firebase";
+import { Comment } from "../types/CommentTypes.ts";
 
 const commentConverter = {
   fromFirestore(snapshot: QueryDocumentSnapshot<DocumentData>): Comment {
@@ -60,11 +60,11 @@ export const useComments = (taskId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [taskId])
+  }, [taskId]);
 
   useEffect(() => {
     fetchComments();
   }, [fetchComments]);
 
-  return {comments, loading, refetch: fetchComments};
+  return { comments, loading, refetch: fetchComments };
 };

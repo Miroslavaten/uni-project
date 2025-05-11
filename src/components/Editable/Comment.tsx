@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styles from "../TaskModal/TaskModal.module.scss";
-import {createComment, updateComment} from "../../services/commentService.ts";
+import { createComment, updateComment } from "../../services/commentService.ts";
 import { EditableField } from "./EditableField.tsx";
-import {doc} from "firebase/firestore";
-import {db} from "../../firebase.ts";
-import {useAuth} from "../../hooks/useAuth.ts";
-import {Task} from "../../types/TaskTypes.ts";
+import { doc } from "firebase/firestore";
+import { db } from "../../firebase.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
+import { Task } from "../../types/TaskTypes.ts";
 
 export interface CommentData {
   id: string;
@@ -19,7 +19,7 @@ interface CommentProps {
   comment: CommentData;
   onDelete: (id: string) => void;
   refetch: () => void;
-  task: Task
+  task: Task;
 }
 
 export const Comment: React.FC<CommentProps> = ({
@@ -31,7 +31,7 @@ export const Comment: React.FC<CommentProps> = ({
   const [description, setDescription] = useState(comment.text);
   const [addReply, setAddReply] = useState(false);
   const [replyText, setReplyText] = useState("");
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const handleAddReply = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey && replyText !== "") {
@@ -42,7 +42,7 @@ export const Comment: React.FC<CommentProps> = ({
         true,
         doc(db, "comments", comment.id),
       );
-      await refetch()
+      await refetch();
       setReplyText("");
       setAddReply(false);
     } else if (e.key === "Escape") {
