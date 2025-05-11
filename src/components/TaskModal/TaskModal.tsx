@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import styles from "./TaskModal.module.scss";
 import { deleteTask, updateTask } from "../../services/taskService.ts";
 import { EditableField } from "../Editable/EditableField.tsx";
-import {PRIORITIES, TaskDetailsProps} from "../../types/TaskTypes.ts";
+import { PRIORITIES, TaskDetailsProps } from "../../types/TaskTypes.ts";
 import { useComments } from "../../hooks/useComment.ts";
 import { createComment, deleteComment } from "../../services/commentService.ts";
 import { useAuth } from "../../hooks/useAuth.ts";
@@ -86,7 +86,9 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             </div>
             <div className={styles.extraInfo}>
               <div className={styles.select}>
-                <label htmlFor="priority"><strong>Priority:</strong></label>
+                <label htmlFor="priority">
+                  <strong>Priority:</strong>
+                </label>
                 <select
                   id="priority"
                   name="priority"
@@ -94,7 +96,7 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                   onChange={async (e) => {
                     const newPriority = e.target.value;
                     setPriority(newPriority);
-                    await updateTask(task.id, {priority: newPriority});
+                    await updateTask(task.id, { priority: newPriority });
                     onUpdated?.();
                   }}
                 >
@@ -104,14 +106,14 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                 </select>
                 <div
                   className={styles.statusDot}
-                  style={{backgroundColor: PRIORITIES[priority]}}
+                  style={{ backgroundColor: PRIORITIES[priority] }}
                 />
               </div>
               <p>
                 <strong>Author:</strong> {task.author}
               </p>
               <p>
-              <strong>Created:</strong> {task.createdAt.toLocaleString()}
+                <strong>Created:</strong> {task.createdAt.toLocaleString()}
               </p>
               <p>
                 <strong>Updated:</strong> {task.updatedAt.toLocaleString()}
