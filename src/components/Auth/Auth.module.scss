@@ -55,4 +55,19 @@
       color: $color-text-extra-light;
     }
   }
+  .googleButton {
+    background-color: #fff;
+    color: #444;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+
+  .googleButton:hover {
+    background-color: #f7f7f7;
+  }
 }

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../../firebase.ts";
+import { auth, googleProvider } from "../../firebase.ts";
 import styles from "./Auth.module.scss";
 
 export const AuthForm = () => {
@@ -20,6 +21,14 @@ export const AuthForm = () => {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
     } catch (err: any) {
       setError(err.message);
     }
@@ -52,6 +61,15 @@ export const AuthForm = () => {
           onClick={() => setIsRegister(!isRegister)}
         >
           {isRegister ? "Do you already have an account?" : "No account?"}
+        </button>
+        <p>-----------------------------------------</p>
+        <p>Other options</p>
+        <button
+          className={styles.googleButton}
+          type="button"
+          onClick={handleGoogleSignIn}
+        >
+          {isRegister ? "Sign up" : "Sign in"} with Google
         </button>
       </form>
     </div>
