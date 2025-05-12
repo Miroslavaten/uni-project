@@ -1,5 +1,5 @@
 import React, { FC, useRef } from 'react';
-import { Task } from '../../../types/TaskTypes.ts';
+import { Task } from '../../../../types/TaskTypes.ts';
 import { useDraggable } from '@dnd-kit/core';
 import styles from './taskCard.module.scss';
 

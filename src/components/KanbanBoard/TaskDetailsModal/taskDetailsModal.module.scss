@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@import '../../../styles/variables.scss';
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -20,7 +21,6 @@
     padding: $spacing-large;
 
     .modalHeader {
-      margin-bottom: $spacing-large;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -40,7 +40,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: $spacing-large;
+      padding: 20px 20px 0 20px;
 
       .taskInfo {
         text-align: left;
@@ -62,7 +62,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: 200px;
+        min-height: 195px;
         text-align: left;
         border-left: 1px solid #1a1a11;
         padding-left: $spacing-large;
@@ -73,45 +73,34 @@
       display: flex;
     }
 
-    .comments {
-      padding: $spacing-large;
+    .commentsWrapper {
+      margin-top: $spacing-large;
       display: flex;
       justify-content: space-between;
 
-      .commentsWrapper {
+      .comments {
+        justify-content: space-between;
+        width: 665px;
+        max-height: 150px;
+        overflow-y: auto;
+        padding-right: 15px;
         display: flex;
         flex-direction: column;
       }
-      .comment {
+
+      .addComment {
+        width: 260px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
 
-        .commentInfo {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .commentName {
-            margin-right: $spacing-small;
-            color: $color-text-extra-light;
-            background-color: $color-text-dark;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .commentText {
-            color: $color-text-muted;
-            font-size: $font-size-text;
-          }
-        }
-        .commentData {
-          color: $color-text-muted;
+        .addCommentInput {
+          width: 100%;
           font-size: $font-size-text;
+          font-family: $font-main;
+          padding: 5px;
+          border: 1px solid $color-background-task;
+          border-radius: 4px;
         }
       }
     }

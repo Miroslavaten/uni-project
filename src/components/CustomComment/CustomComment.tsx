@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styles from '../TaskModal/TaskModal.module.scss';
+// import styles from '../KanbanBoard/TaskDetailsModal/TaskDetailsModal.module.scss';
+import styles from './customComment.module.scss';
 import { createComment, updateComment } from '../../services/commentService.ts';
-import { EditableField } from './EditableField.tsx';
+import { EditableField } from '../CustomInputs/CustomInputs.tsx';
 import { doc } from 'firebase/firestore';
 import { db } from '../../firebase.ts';
 import { useAuth } from '../../hooks/useAuth.ts';
@@ -53,34 +54,44 @@ export const Comment: React.FC<CommentProps> = ({
 
   return (
     <div
-      className={styles.comment}
-      style={{
-        marginLeft: comment.isReply ? 50 : 0,
-      }}
+      className={`${styles.comment} ${comment.isReply ? styles.commentReply : ''}`}
     >
-      <div className={styles.commentInfo}>
-        <div className={styles.commentName}>{comment.author.slice(0, 2)}</div>
-        <EditableField
-          className={styles.commentText}
-          value={description}
-          onSave={async (val) => {
-            setDescription(val);
-            await updateComment(comment.id, val);
-          }}
-        />
-        <button onClick={() => onDelete(comment.id)}>Delete</button>
-        {!comment.isReply && (
-          <button onClick={() => setAddReply(!addReply)}>
-            {addReply ? 'Cancel' : 'Reply'}
-          </button>
-        )}
+      <div className={styles.commentContent}>
+        <div className={styles.commentInfo}>
+          <div className={styles.commentName}>{comment.author.slice(0, 2)}</div>
+          <EditableField
+            className={styles.commentText}
+            value={description}
+            onSave={async (val) => {
+              setDescription(val);
+              await updateComment(comment.id, val);
+            }}
+          />
+        </div>
         {!comment.isReply && addReply && (
           <input
+            className={styles.addReplyInput}
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
             onKeyDown={handleAddReply}
           />
         )}
+        <div className={` ${addReply ? styles.replyButtonWrapper : ''}`}>
+          <button
+            className={styles.deleteCommentButton}
+            onClick={() => onDelete(comment.id)}
+          >
+            Delete
+          </button>
+          {!comment.isReply && (
+            <button
+              className={styles.replyCommentButton}
+              onClick={() => setAddReply(!addReply)}
+            >
+              {addReply ? 'Cancel' : 'Reply'}
+            </button>
+          )}
+        </div>
       </div>
       <p className={styles.commentData}>{comment.createdAt.toLocaleString()}</p>
     </div>
