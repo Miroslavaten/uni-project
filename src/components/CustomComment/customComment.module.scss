@@ -1,0 +1,71 @@
+@import '../../styles/variables.scss';
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .commentContent {
+    display: flex;
+    flex-direction: column;
+
+    .commentInfo {
+      display: flex;
+      align-items: center;
+
+      .commentName {
+        margin-right: $spacing-small;
+        color: $color-text-extra-light;
+        background-color: $color-text-dark;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .commentText {
+        color: $color-text-light;
+        font-size: $font-size-text;
+      }
+    }
+
+    .addReplyInput {
+      width: 245px;
+      margin-left: 35px;
+      font-family: $font-main;
+      padding: 5px;
+      border: 1px solid $color-background-task;
+      border-radius: 4px;
+    }
+
+    .replyButtonWrapper {
+      display: flex;
+    }
+  }
+  .commentData {
+    color: $color-text-muted;
+    font-size: $font-size-text;
+  }
+
+  .deleteCommentButton {
+    border-radius: $radius-small;
+    font-size: $font-size-text;
+    color: $color-text-muted;
+    padding-left: 35px;
+  }
+
+  .replyCommentButton {
+    font-size: $font-size-text;
+    color: $color-text-muted;
+    padding: 0;
+  }
+}
+
+.commentReply {
+  margin-left: 35px;
+  border-left: 3px solid #1a1a11;
+  padding-left: 10px;
+}
