@@ -13,10 +13,10 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase.ts';
 import styles from './kanban.module.scss';
 import AddIcon from '../../assets/addIcon.svg';
-import { TaskCard } from './TaskCard/TaskCard.tsx';
+import { TaskCard } from './TaskCards/TaskCard/TaskCard.tsx';
 import { Task } from '../../types/TaskTypes.ts';
-import TaskModal from '../TaskModal/TaskModal.tsx';
-import { CreateTaskModal } from '../TaskModal/TaskCreateModal/TaskCreateModal.tsx';
+import TaskModal from './TaskDetailsModal/TaskDetailsModal.tsx';
+import { CreateTaskModal } from './TaskCards/CreateTaskCard/CreateTaskCard.tsx';
 import { useAuth } from '../../hooks/useAuth.ts';
 
 export const KanbanBoard: FC = () => {

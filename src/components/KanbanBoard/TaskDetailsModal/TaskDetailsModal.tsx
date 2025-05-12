@@ -1,14 +1,17 @@
 import React, { FC, useState } from 'react';
-import styles from './TaskModal.module.scss';
-import { deleteTask, updateTask } from '../../services/taskService.ts';
-import { EditableField } from '../Editable/EditableField.tsx';
-import { TaskDetailsProps } from '../../types/TaskTypes.ts';
-import { useComments } from '../../hooks/useComment.ts';
-import { createComment, deleteComment } from '../../services/commentService.ts';
-import { useAuth } from '../../hooks/useAuth.ts';
+import styles from './taskDetailsModal.module.scss';
+import { deleteTask, updateTask } from '../../../services/taskService.ts';
+import { EditableField } from '../../CustomInputs/CustomInputs.tsx';
+import { TaskDetailsProps } from '../../../types/TaskTypes.ts';
+import { useComments } from '../../../hooks/useComment.ts';
+import {
+  createComment,
+  deleteComment,
+} from '../../../services/commentService.ts';
+import { useAuth } from '../../../hooks/useAuth.ts';
 import { doc } from 'firebase/firestore';
-import { db } from '../../firebase.ts';
-import { Comment } from '../Editable/Comment.tsx';
+import { db } from '../../../firebase.ts';
+import { Comment } from '../../CustomComment/CustomComment.tsx';
 
 const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   if (!task) return null;

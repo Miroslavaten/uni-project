@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from '../TaskModal/TaskModal.module.scss';
+import styles from '../KanbanBoard/TaskDetailsModal/TaskDetailsModal.module.scss';
 import { createComment, updateComment } from '../../services/commentService.ts';
-import { EditableField } from './EditableField.tsx';
+import { EditableField } from '../CustomInputs/CustomInputs.tsx';
 import { doc } from 'firebase/firestore';
 import { db } from '../../firebase.ts';
 import { useAuth } from '../../hooks/useAuth.ts';
