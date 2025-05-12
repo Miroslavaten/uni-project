@@ -9,7 +9,7 @@ import {
   DragOverlay,
 } from "@dnd-kit/core";
 import { KanbanColumnPropsWithRegister } from "../../types/KanbanTypes.ts";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, DocumentReference, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase.ts";
 import styles from "./kanban.module.scss";
 import AddIcon from "../../assets/addIcon.svg";
@@ -47,10 +47,13 @@ export const KanbanBoard: FC = () => {
 
       if (active.data.current?.columnId !== newColumnId) {
         try {
-          const taskRef = doc(db, "tasks", taskId);
-          await updateDoc(taskRef, {
-            columnId: doc(db, "columns", newColumnId),
-          });
+          const taskRef = doc(db, "tasks", taskId) as DocumentReference;
+          const columnRef = doc(
+            db,
+            "columns",
+            newColumnId,
+          ) as DocumentReference;
+          await updateDoc(taskRef, "columnId", columnRef);
           Object.values(columnsRefs.current).forEach((refetch) => refetch());
         } catch (error) {
           console.error("Failed to move task:", error);
@@ -115,7 +118,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
   const { setNodeRef } = useDroppable({
     id: columnId,
   });
-  const [isCreating, setIsCreating] = useState(false);
+  const [isCreating, setIsCreating] = useState<boolean>(false);
   const { user } = useAuth();
 
   // Регистрируем refetch в родительском компоненте
@@ -129,7 +132,7 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
         <h2 className={styles.columnTitle}>{title}</h2>
         <div>
           <img
-            src={AddIcon}
+            src={AddIcon as string}
             alt="add icon"
             className={styles.addIcon}
             onClick={() => setIsCreating(true)}

@@ -13,12 +13,15 @@ export const EditableField: FC<EditableFieldProps> = ({
   textarea = false,
   className,
 }) => {
-  const [editing, setEditing] = useState(false);
-  const [tempValue, setTempValue] = useState(value);
-  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [tempValue, setTempValue] = useState<string>(value);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
-    if (editing && inputRef.current) inputRef.current.focus();
+    if (editing && !textarea && inputRef.current) inputRef.current!.focus();
+    if (editing && textarea && textAreaRef.current)
+      textAreaRef.current!.focus();
   }, [editing]);
 
   const handleBlur = async () => {
@@ -41,7 +44,7 @@ export const EditableField: FC<EditableFieldProps> = ({
   return editing ? (
     textarea ? (
       <textarea
-        ref={inputRef as any}
+        ref={textAreaRef}
         value={tempValue}
         onChange={(e) => setTempValue(e.target.value)}
         onBlur={handleBlur}
@@ -51,7 +54,7 @@ export const EditableField: FC<EditableFieldProps> = ({
       />
     ) : (
       <input
-        ref={inputRef as any}
+        ref={inputRef}
         value={tempValue}
         onChange={(e) => setTempValue(e.target.value)}
         onBlur={handleBlur}

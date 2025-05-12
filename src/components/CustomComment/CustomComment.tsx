@@ -5,22 +5,7 @@ import { EditableField } from "../CustomInputs/CustomInputs.tsx";
 import { doc } from "firebase/firestore";
 import { db } from "../../firebase.ts";
 import { useAuth } from "../../hooks/useAuth.ts";
-import { Task } from "../../types/TaskTypes.ts";
-
-export interface CommentData {
-  id: string;
-  author: string;
-  text: string;
-  createdAt: Date;
-  isReply: boolean;
-}
-
-interface CommentProps {
-  comment: CommentData;
-  onDelete: (id: string) => void;
-  refetch?: () => void;
-  task: Task;
-}
+import { CommentProps } from "../../types/CommentTypes.ts";
 
 export const Comment: React.FC<CommentProps> = ({
   comment,
@@ -28,9 +13,9 @@ export const Comment: React.FC<CommentProps> = ({
   refetch,
   task,
 }) => {
-  const [description, setDescription] = useState(comment.text);
-  const [addReply, setAddReply] = useState(false);
-  const [replyText, setReplyText] = useState("");
+  const [description, setDescription] = useState<string>(comment.text);
+  const [addReply, setAddReply] = useState<boolean>(false);
+  const [replyText, setReplyText] = useState<string>("");
   const { user } = useAuth();
 
   const handleAddReply = async (e: React.KeyboardEvent) => {

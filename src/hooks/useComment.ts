@@ -31,7 +31,7 @@ const commentConverter = {
 
 export const useComments = (taskId: string) => {
   const [comments, setComments] = useState<Comment[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchComments = useCallback(async () => {
     try {
@@ -42,10 +42,10 @@ export const useComments = (taskId: string) => {
       );
       const snapshot = await getDocs(q);
       const loaded = snapshot.docs.map(commentConverter.fromFirestore);
-      let computedComments = [];
-      for (let comment of loaded) {
+      const computedComments: Comment[] = [];
+      for (const comment of loaded) {
         if (comment.commentId) {
-          for (let parent of computedComments) {
+          for (const parent of computedComments) {
             if (parent.id === comment.commentId) {
               parent.children.push(comment);
             }

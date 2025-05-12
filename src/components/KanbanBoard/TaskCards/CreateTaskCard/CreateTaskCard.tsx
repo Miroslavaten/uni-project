@@ -1,14 +1,7 @@
 import React, { FC, useState } from "react";
 import styles from "./createTaskCard.module.scss";
-import { DocumentReference } from "firebase/firestore";
 import { createTask } from "../../../../services/taskService.ts";
-
-interface CreateTaskModalProps {
-  columnRef: DocumentReference;
-  onClose: () => void;
-  onCreated: () => void;
-  author: string;
-}
+import { CreateTaskModalProps } from "../../../../types/TaskTypes.ts";
 
 export const CreateTaskModal: FC<CreateTaskModalProps> = ({
   columnRef,
@@ -16,9 +9,9 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
   onCreated,
   author,
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleCreate = async () => {
     if (!title.trim()) return;

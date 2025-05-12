@@ -8,15 +8,9 @@ import {
   deleteDoc,
   DocumentReference,
 } from "firebase/firestore";
-import { Task } from "../types/TaskTypes.ts";
+import { PRIORITY_VALUES, Task } from "../types/TaskTypes.ts";
 
 const tasksCollection = collection(db, "tasks");
-
-const PRIORITY_VALUES = {
-  low: 0,
-  medium: 1,
-  high: 2,
-};
 
 export const createTask = async (
   author: string,

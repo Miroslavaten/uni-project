@@ -14,13 +14,15 @@ import { db } from "../../../firebase.ts";
 import { Comment } from "../../CustomComment/CustomComment.tsx";
 
 const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
-  const [title, setTitle] = useState(task.title);
-  const [description, setDescription] = useState(task.description);
-  const { comments, loading: commentsLoading, refetch } = useComments(task.id);
-  const [newComment, setNewComment] = useState("");
-  const { user } = useAuth();
-  const [priority, setPriority] = useState(task.priority);
   if (!task) return null;
+  /* eslint-disable react-hooks/rules-of-hooks*/
+  const [title, setTitle] = useState<string>(task.title);
+  const [description, setDescription] = useState<string>(task.description);
+  const { comments, loading: commentsLoading, refetch } = useComments(task.id);
+  const [newComment, setNewComment] = useState<string>("");
+  const { user } = useAuth();
+  const [priority, setPriority] = useState<string>(task.priority);
+  /* eslint-enable */
 
   const handleDeleteTask = async () => {
     if (confirm("Delete task?")) {

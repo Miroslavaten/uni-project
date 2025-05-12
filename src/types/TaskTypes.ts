@@ -6,6 +6,12 @@ export const PRIORITIES = {
   low: "#75f222",
 };
 
+export const PRIORITY_VALUES = {
+  low: 0,
+  medium: 1,
+  high: 2,
+};
+
 export interface Task {
   id: string;
   title: string;
@@ -22,4 +28,11 @@ export interface TaskDetailsProps {
   task: Task | null;
   onClose: () => void;
   onUpdated?: () => void;
+}
+
+export interface CreateTaskModalProps {
+  columnRef: DocumentReference;
+  onClose: () => void;
+  onCreated: () => void;
+  author: string;
 }
