@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-} from "firebase/auth";
-import { auth, googleProvider } from "../../firebase.ts";
-import styles from "./Auth.module.scss";
+} from 'firebase/auth';
+import { auth, googleProvider } from '../../firebase.ts';
+import styles from './Auth.module.scss';
 
 export const AuthForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ export const AuthForm = () => {
   return (
     <div className={styles.authFromWrapper}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 className={styles.title}>{isRegister ? "SIGN UP" : "SIGN IN"}</h2>
+        <h2 className={styles.title}>{isRegister ? 'SIGN UP' : 'SIGN IN'}</h2>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -53,24 +53,25 @@ export const AuthForm = () => {
           <p className={styles.errorText}>Ops, something went wrong!</p>
         )}
         <button className={styles.authButton} type="submit">
-          {isRegister ? "Sign up" : "Sign in"}
+          {isRegister ? 'Sign up' : 'Sign in'}
         </button>
         <button
           className={styles.questionButton}
           type="button"
           onClick={() => setIsRegister(!isRegister)}
         >
-          {isRegister ? "Do you already have an account?" : "No account?"}
+          {isRegister ? 'Do you already have an account?' : 'No account?'}
         </button>
-        <p>-----------------------------------------</p>
-        <p>Other options</p>
-        <button
-          className={styles.googleButton}
-          type="button"
-          onClick={handleGoogleSignIn}
-        >
-          {isRegister ? "Sign up" : "Sign in"} with Google
-        </button>
+        <div className={styles.footer}>
+          <p className={styles.questionButton}>Other options</p>
+          <button
+            className={styles.googleButton}
+            type="button"
+            onClick={handleGoogleSignIn}
+          >
+            {isRegister ? 'Sign up' : 'Sign in'} with Google
+          </button>
+        </div>
       </form>
     </div>
   );
