@@ -1,4 +1,4 @@
-@use "../../styles/variables.scss" as *;
+@use '../../styles/variables.scss' as *;
 .authFromWrapper {
   position: fixed;
   top: 0;
@@ -54,20 +54,24 @@
       font-size: $font-size-text;
       color: $color-text-extra-light;
     }
-  }
-  .googleButton {
-    background-color: #fff;
-    color: #444;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: 0.2s;
-  }
 
-  .googleButton:hover {
-    background-color: #f7f7f7;
+    .footer {
+      border-top: 2px dashed $color-text-extra-light;
+      width: 100%;
+      padding-top: $spacing-large;
+      margin-top: $spacing-large;
+
+      .googleButton {
+        background-color: #fff;
+        color: #444;
+        padding: 8px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: normal;
+        transition: 0.2s;
+        font-size: $font-size-text;
+      }
+    }
   }
 }
