@@ -99,8 +99,8 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
             </div>
           </div>
           <h3 className={styles.commentsTitle}>Comments</h3>
-          <div className={styles.comments}>
-            <div className={styles.commentsWrapper}>
+          <div className={styles.commentsWrapper}>
+            <div className={styles.comments}>
               {commentsLoading ? (
                 <p>Loading comments...</p>
               ) : comments.length === 0 ? (
@@ -126,9 +126,10 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                 ))
               )}
             </div>
-            <div key={'add comment'}>
-              <p>Add comment:</p>
+            <div className={styles.addComment} key={'Add comment'}>
+              <h4>Add comment:</h4>
               <input
+                className={styles.addCommentInput}
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 onKeyDown={handleCreateComment}
