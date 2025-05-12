@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react';
-import styles from './createTaskCard.module.scss';
-import { DocumentReference } from 'firebase/firestore';
-import { createTask } from '../../../../services/taskService.ts';
+import React, { FC, useState } from "react";
+import styles from "./createTaskCard.module.scss";
+import { DocumentReference } from "firebase/firestore";
+import { createTask } from "../../../../services/taskService.ts";
 
 interface CreateTaskModalProps {
   columnRef: DocumentReference;
@@ -16,8 +16,8 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
   onCreated,
   author,
 }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleCreate = async () => {
@@ -28,7 +28,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
       onCreated();
       onClose();
     } catch (error) {
-      console.error('Ошибка при создании задачи:', error);
+      console.error("Ошибка при создании задачи:", error);
     } finally {
       setLoading(false);
     }
@@ -61,7 +61,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({
           className={styles.saveButton}
           disabled={loading}
         >
-          {loading ? 'Creating...' : 'Create'}
+          {loading ? "Creating..." : "Create"}
         </button>
       </div>
     </div>

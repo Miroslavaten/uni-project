@@ -22,8 +22,8 @@ export const createTask = async (
   author: string,
   title: string,
   description: string,
-  priority: string = "medium",
   columnRef: DocumentReference,
+  priority: string = "medium",
 ) => {
   const newTask = {
     author,

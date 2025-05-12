@@ -1,26 +1,26 @@
-import React, { FC, useState } from 'react';
-import styles from './taskDetailsModal.module.scss';
-import { deleteTask, updateTask } from '../../../services/taskService.ts';
-import { EditableField } from '../../CustomInputs/CustomInputs.tsx';
-import { PRIORITIES, TaskDetailsProps } from '../../../types/TaskTypes.ts';
-import { useComments } from '../../../hooks/useComment.ts';
+import React, { FC, useState } from "react";
+import styles from "./taskDetailsModal.module.scss";
+import { deleteTask, updateTask } from "../../../services/taskService.ts";
+import { EditableField } from "../../CustomInputs/CustomInputs.tsx";
+import { PRIORITIES, TaskDetailsProps } from "../../../types/TaskTypes.ts";
+import { useComments } from "../../../hooks/useComment.ts";
 import {
   createComment,
   deleteComment,
-} from '../../../services/commentService.ts';
-import { useAuth } from '../../../hooks/useAuth.ts';
-import { doc } from 'firebase/firestore';
-import { db } from '../../../firebase.ts';
-import { Comment } from '../../CustomComment/CustomComment.tsx';
+} from "../../../services/commentService.ts";
+import { useAuth } from "../../../hooks/useAuth.ts";
+import { doc } from "firebase/firestore";
+import { db } from "../../../firebase.ts";
+import { Comment } from "../../CustomComment/CustomComment.tsx";
 
 const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
-  if (!task) return null;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const { comments, loading: commentsLoading, refetch } = useComments(task.id);
   const [newComment, setNewComment] = useState("");
   const { user } = useAuth();
   const [priority, setPriority] = useState(task.priority);
+  if (!task) return null;
 
   const handleDeleteTask = async () => {
     if (confirm("Delete task?")) {
@@ -151,7 +151,7 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
                 ))
               )}
             </div>
-            <div className={styles.addComment} key={'Add comment'}>
+            <div className={styles.addComment} key={"Add comment"}>
               <h4>Add comment:</h4>
               <input
                 className={styles.addCommentInput}

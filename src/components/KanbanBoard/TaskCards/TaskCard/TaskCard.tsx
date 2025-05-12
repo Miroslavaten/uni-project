@@ -1,7 +1,7 @@
-import React, { FC, useRef } from 'react';
-import { Task } from '../../../../types/TaskTypes.ts';
-import { useDraggable } from '@dnd-kit/core';
-import styles from './taskCard.module.scss';
+import React, { FC, useRef } from "react";
+import { PRIORITIES, Task } from "../../../../types/TaskTypes.ts";
+import { useDraggable } from "@dnd-kit/core";
+import styles from "./taskCard.module.scss";
 
 export const TaskCard: FC<{
   task: Task;

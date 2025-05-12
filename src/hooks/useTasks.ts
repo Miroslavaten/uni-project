@@ -44,7 +44,7 @@ export const useTasks = (columnId: string) => {
         tasksRef,
         where("columnId", "==", doc(db, "columns", columnId)),
         orderBy("priorityValue", "desc"),
-        orderBy("createdAt", "asc"),
+        orderBy("createdAt", "desc"),
       );
       const querySnapshot = await getDocs(q);
       const loadedTasks: Task[] = querySnapshot.docs.map((doc) =>

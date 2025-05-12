@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import styles from './customComment.module.scss';
-import { createComment, updateComment } from '../../services/commentService.ts';
-import { EditableField } from '../CustomInputs/CustomInputs.tsx';
-import { doc } from 'firebase/firestore';
-import { db } from '../../firebase.ts';
-import { useAuth } from '../../hooks/useAuth.ts';
-import { Task } from '../../types/TaskTypes.ts';
+import React, { useState } from "react";
+import styles from "./customComment.module.scss";
+import { createComment, updateComment } from "../../services/commentService.ts";
+import { EditableField } from "../CustomInputs/CustomInputs.tsx";
+import { doc } from "firebase/firestore";
+import { db } from "../../firebase.ts";
+import { useAuth } from "../../hooks/useAuth.ts";
+import { Task } from "../../types/TaskTypes.ts";
 
 export interface CommentData {
   id: string;
@@ -53,7 +53,7 @@ export const Comment: React.FC<CommentProps> = ({
 
   return (
     <div
-      className={`${styles.comment} ${comment.isReply ? styles.commentReply : ''}`}
+      className={`${styles.comment} ${comment.isReply ? styles.commentReply : ""}`}
     >
       <div className={styles.commentContent}>
         <div className={styles.commentInfo}>
@@ -75,7 +75,7 @@ export const Comment: React.FC<CommentProps> = ({
             onKeyDown={handleAddReply}
           />
         )}
-        <div className={` ${addReply ? styles.replyButtonWrapper : ''}`}>
+        <div className={` ${addReply ? styles.replyButtonWrapper : ""}`}>
           <button
             className={styles.deleteCommentButton}
             onClick={() => onDelete(comment.id)}
@@ -87,7 +87,7 @@ export const Comment: React.FC<CommentProps> = ({
               className={styles.replyCommentButton}
               onClick={() => setAddReply(!addReply)}
             >
-              {addReply ? 'Cancel' : 'Reply'}
+              {addReply ? "Cancel" : "Reply"}
             </button>
           )}
         </div>
