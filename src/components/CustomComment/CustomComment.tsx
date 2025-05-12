@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import styles from '../KanbanBoard/TaskDetailsModal/TaskDetailsModal.module.scss';
 import styles from './customComment.module.scss';
 import { createComment, updateComment } from '../../services/commentService.ts';
 import { EditableField } from '../CustomInputs/CustomInputs.tsx';
@@ -31,23 +30,23 @@ export const Comment: React.FC<CommentProps> = ({
 }) => {
   const [description, setDescription] = useState(comment.text);
   const [addReply, setAddReply] = useState(false);
-  const [replyText, setReplyText] = useState('');
+  const [replyText, setReplyText] = useState("");
   const { user } = useAuth();
 
   const handleAddReply = async (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey && replyText !== '') {
+    if (e.key === "Enter" && !e.shiftKey && replyText !== "") {
       await createComment(
         replyText,
-        user?.email || '',
-        doc(db, 'tasks', task.id),
+        user?.email || "",
+        doc(db, "tasks", task.id),
         true,
-        doc(db, 'comments', comment.id)
+        doc(db, "comments", comment.id),
       );
       await refetch?.();
-      setReplyText('');
+      setReplyText("");
       setAddReply(false);
-    } else if (e.key === 'Escape') {
-      setReplyText('');
+    } else if (e.key === "Escape") {
+      setReplyText("");
       setAddReply(false);
     }
   };

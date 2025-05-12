@@ -1,4 +1,4 @@
-import { Task } from './TaskTypes.ts';
+import { Task } from "./TaskTypes.ts";
 
 export interface KanbanColumnProps {
   columnId: string;

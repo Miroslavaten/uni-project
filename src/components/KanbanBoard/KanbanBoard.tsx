@@ -1,6 +1,6 @@
-import React, { FC, useRef, useState } from 'react';
-import { useColumns } from '../../hooks/useColumns.ts';
-import { useTasks } from '../../hooks/useTasks.ts';
+import React, { FC, useRef, useState } from "react";
+import { useColumns } from "../../hooks/useColumns.ts";
+import { useTasks } from "../../hooks/useTasks.ts";
 import {
   DndContext,
   DragEndEvent,
@@ -47,13 +47,13 @@ export const KanbanBoard: FC = () => {
 
       if (active.data.current?.columnId !== newColumnId) {
         try {
-          const taskRef = doc(db, 'tasks', taskId);
+          const taskRef = doc(db, "tasks", taskId);
           await updateDoc(taskRef, {
-            columnId: doc(db, 'columns', newColumnId),
+            columnId: doc(db, "columns", newColumnId),
           });
           Object.values(columnsRefs.current).forEach((refetch) => refetch());
         } catch (error) {
-          console.error('Failed to move task:', error);
+          console.error("Failed to move task:", error);
         }
       }
     }
@@ -138,8 +138,8 @@ const KanbanColumn: FC<KanbanColumnPropsWithRegister> = ({
       </div>
       {isCreating && (
         <CreateTaskModal
-          columnRef={doc(db, 'columns', columnId)}
-          author={user?.email || ''}
+          columnRef={doc(db, "columns", columnId)}
+          author={user?.email || ""}
           onClose={() => setIsCreating(false)}
           onCreated={refetch}
         />

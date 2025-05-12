@@ -40,17 +40,20 @@ export const TaskCard: FC<{
         transform: transform
           ? `translate(${transform.x}px, ${transform.y}px)`
           : undefined,
-        cursor: 'grab',
+        cursor: "grab",
         // position: transform ? 'fixed' : 'relative', //! fixed — держим под курсором (нифига он не держит)
-        zIndex: transform ? 1000 : 'auto',
-        width: transform ? '275px' : 'auto', // сохранить размер карточки
+        zIndex: transform ? 1000 : "auto",
+        width: transform ? "275px" : "auto", // сохранить размер карточки
         opacity: isDragging ? 0.5 : 1,
       }}
       className={styles.card}
     >
       <div className={styles.header}>
         <h3 className={styles.title}>{title}</h3>
-        <div className={styles.statusDot} />
+        <div
+          className={styles.statusDot}
+          style={{ backgroundColor: PRIORITIES[task.priority] }}
+        />
       </div>
       <p className={styles.description}>{description}</p>
       <div className={styles.author}>{author}</div>

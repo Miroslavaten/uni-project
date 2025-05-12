@@ -12,16 +12,25 @@ import { Task } from "../types/TaskTypes.ts";
 
 const tasksCollection = collection(db, "tasks");
 
+const PRIORITY_VALUES = {
+  low: 0,
+  medium: 1,
+  high: 2,
+};
+
 export const createTask = async (
   author: string,
   title: string,
   description: string,
+  priority: string = "medium",
   columnRef: DocumentReference,
 ) => {
   const newTask = {
     author,
     title,
     description,
+    priority,
+    priorityValue: PRIORITY_VALUES[priority],
     columnId: columnRef,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -37,6 +46,9 @@ export const updateTask = async (
 ) => {
   const taskDocRef = doc(db, "tasks", taskId);
 
+  if (updates.priority) {
+    updates.priorityValue = PRIORITY_VALUES[updates.priority];
+  }
   await updateDoc(taskDocRef, {
     ...updates,
     updatedAt: serverTimestamp(),

@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import styles from './taskDetailsModal.module.scss';
 import { deleteTask, updateTask } from '../../../services/taskService.ts';
 import { EditableField } from '../../CustomInputs/CustomInputs.tsx';
-import { TaskDetailsProps } from '../../../types/TaskTypes.ts';
+import { PRIORITIES, TaskDetailsProps } from '../../../types/TaskTypes.ts';
 import { useComments } from '../../../hooks/useComment.ts';
 import {
   createComment,
@@ -18,11 +18,12 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const { comments, loading: commentsLoading, refetch } = useComments(task.id);
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const { user } = useAuth();
+  const [priority, setPriority] = useState(task.priority);
 
   const handleDeleteTask = async () => {
-    if (confirm('Delete task?')) {
+    if (confirm("Delete task?")) {
       await deleteTask(task.id);
       onUpdated?.();
       onClose();
@@ -30,22 +31,22 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
   };
 
   const handleCreateComment = async (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey && newComment !== '') {
+    if (e.key === "Enter" && !e.shiftKey && newComment !== "") {
       await createComment(
         newComment,
-        user?.email || '',
-        doc(db, 'tasks', task.id)
+        user?.email || "",
+        doc(db, "tasks", task.id),
       );
-      setNewComment('');
+      setNewComment("");
       await refetch();
-    } else if (e.key === 'Escape') {
-      setNewComment('');
+    } else if (e.key === "Escape") {
+      setNewComment("");
       await refetch();
     }
   };
 
   const handleDeleteComment = async (commentId: string) => {
-    if (confirm('Delete comment?')) {
+    if (confirm("Delete comment?")) {
       await deleteComment(commentId);
       await refetch();
     }
@@ -87,6 +88,30 @@ const TaskModal: FC<TaskDetailsProps> = ({ task, onClose, onUpdated }) => {
               />
             </div>
             <div className={styles.extraInfo}>
+              <div className={styles.select}>
+                <label htmlFor="priority">
+                  <strong>Priority:</strong>
+                </label>
+                <select
+                  id="priority"
+                  name="priority"
+                  value={priority}
+                  onChange={async (e) => {
+                    const newPriority = e.target.value;
+                    setPriority(newPriority);
+                    await updateTask(task.id, { priority: newPriority });
+                    onUpdated?.();
+                  }}
+                >
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+                <div
+                  className={styles.statusDot}
+                  style={{ backgroundColor: PRIORITIES[priority] }}
+                />
+              </div>
               <p>
                 <strong>Author:</strong> {task.author}
               </p>
